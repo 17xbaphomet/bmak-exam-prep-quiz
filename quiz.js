@@ -20,16 +20,39 @@ function linkTerms(text) {
   const keys = Object.keys(glossary).sort((a, b) => b.length - a.length);
   if (!keys.length) return text;
 
-  const pattern = new RegExp(
-    "\\b(" + keys.map(escapeRegExp).join("|") + ")\\b",
-    "gi"
-  );
+  // Short uppercase acronyms (IS, LM, PC, NX, UIP, MPC…) must match exact case
+  // to avoid false positives on English words like "is", "in", "or".
+  const shortAcronyms = keys.filter(k => k.length <= 4 && k === k.toUpperCase() && /^[A-Z][A-Z0-9\-]*$/.test(k));
+  const longKeys = keys.filter(k => !shortAcronyms.includes(k));
 
-  return text.replace(pattern, (match) => {
-    // Find canonical key (case-insensitive)
-    const key = keys.find(k => k.toLowerCase() === match.toLowerCase()) || match;
-    return `<span class="term" data-term="${key}">${match}</span>`;
-  });
+  let result = text;
+
+  // 1) Short acronyms – case-SENSITIVE whole-word match
+  if (shortAcronyms.length) {
+    const patShort = new RegExp(
+      "\\b(" + shortAcronyms.map(escapeRegExp).join("|") + ")\\b",
+      "g"  // no "i" flag
+    );
+    result = result.replace(patShort, (match) => {
+      return `<span class="term" data-term="${match}">${match}</span>`;
+    });
+  }
+
+  // 2) Longer / mixed-case terms – case-insensitive
+  if (longKeys.length) {
+    const patLong = new RegExp(
+      "\\b(" + longKeys.map(escapeRegExp).join("|") + ")\\b",
+      "gi"
+    );
+    result = result.replace(patLong, (match) => {
+      // Skip if already inside a term span
+      // (simple guard: if we just wrapped short acronyms, avoid double-wrap)
+      const key = longKeys.find(k => k.toLowerCase() === match.toLowerCase()) || match;
+      return `<span class="term" data-term="${key}">${match}</span>`;
+    });
+  }
+
+  return result;
 }
 
 function hideBubble() {
@@ -57,7 +80,6 @@ function showBubble(termEl) {
   let top = window.scrollY + rect.top - bubbleRect.height - 12;
   let left = window.scrollX + rect.left;
 
-  // Keep inside viewport
   if (top < window.scrollY + 8) {
     top = window.scrollY + rect.bottom + 12;
   }
@@ -70,7 +92,6 @@ function showBubble(termEl) {
   bubble.style.left = left + "px";
 }
 
-// Delegate clicks on terms
 document.addEventListener("click", (e) => {
   const term = e.target.closest(".term");
   if (term) {
@@ -155,7 +176,6 @@ function showQuestion() {
     <span class="tag">${q.topic}</span>
     <span class="tag">${q.source || ""}</span>`;
 
-  // Link glossary terms in the question text
   $("qText").innerHTML = linkTerms(q.question);
 
   $("optionsArea").classList.add("hidden");
@@ -170,7 +190,7 @@ function showQuestion() {
       div.className = "option";
       div.innerHTML = linkTerms(opt);
       div.onclick = (e) => {
-        if (e.target.closest(".term")) return; // don't answer when clicking a term
+        if (e.target.closest(".term")) return;
         answerMCQ(i, q);
       };
       $("optionsArea").appendChild(div);
@@ -239,7 +259,6 @@ function answerTF(val, q) {
   updateStats();
 }
 
-// Event bindings
 $("relevance").oninput = () => {
   $("relValue").textContent = $("relevance").value + "+";
   filterQuestions();
