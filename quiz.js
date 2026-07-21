@@ -1,4 +1,4 @@
-/* BMAK Exam Prep Quiz – modular questions + clickable glossary terms */
+/* BMAK Exam Prep Quiz – modular questions + glossary + KaTeX */
 let filtered = [], currentIdx = 0, score = 0, answered = 0;
 let answeredIds = new Set(JSON.parse(localStorage.getItem("bmak_answered") || "[]"));
 let activeBubble = null;
@@ -9,13 +9,75 @@ function getQuestions() {
   return window.QUESTIONS || [];
 }
 
-/* ---- Glossary term linking ---- */
+/* ---- KaTeX helpers ---- */
+function katexHTML(latex) {
+  if (typeof katex === "undefined") return latex;
+  try {
+    return katex.renderToString(latex, { throwOnError: false, displayMode: false });
+  } catch (e) {
+    return latex;
+  }
+}
+
+function maybeTermWrap(html, termKey) {
+  const glossary = window.GLOSSARY || {};
+  if (termKey && glossary[termKey]) {
+    return `<span class="term" data-term="${termKey}">${html}</span>`;
+  }
+  return html;
+}
+
+/** Convert common macro notation into KaTeX HTML (before glossary linking). */
+function beautifyMath(text) {
+  let s = String(text);
+
+  // Protect already-delimited LaTeX
+  // Multi-char math tokens first (longest first)
+  const replacements = [
+    // Compound symbols
+    [/\u0394\u03c0/g, () => katexHTML("\\Delta\\pi")],
+    [/\u0394\\pi/g, () => katexHTML("\\Delta\\pi")],
+    [/\u03c0\u1d49/g, () => maybeTermWrap(katexHTML("\\pi^{e}"), "\u03c0")],
+    [/\u03c0\^e/g, () => maybeTermWrap(katexHTML("\\pi^{e}"), "\u03c0")],
+    [/M\/P/g, () => katexHTML("M/P")],
+    [/W\/P/g, () => katexHTML("W/P")],
+    // Subscripts: Y_D, u_n, c_1, b_0, …
+    [/\b([A-Za-z])_([A-Za-z0-9]+)\b/g, (_, base, sub) => {
+      const latex = base + "_{" + sub + "}";
+      const key = base + "_" + sub;
+      return maybeTermWrap(katexHTML(latex), key) || maybeTermWrap(katexHTML(latex), base);
+    }],
+    // Unicode Greek letters
+    [/\u03b1/g, () => maybeTermWrap(katexHTML("\\alpha"), "\u03b1")],
+    [/\u03b2/g, () => maybeTermWrap(katexHTML("\\beta"), "\u03b2")],
+    [/\u03b3/g, () => maybeTermWrap(katexHTML("\\gamma"), "\u03b3")],
+    [/\u03b4/g, () => maybeTermWrap(katexHTML("\\delta"), "\u03b4")],
+    [/\u03b5/g, () => maybeTermWrap(katexHTML("\\varepsilon"), "\u03b5")],
+    [/\u03b8/g, () => maybeTermWrap(katexHTML("\\theta"), "\u03b8")],
+    [/\u03bb/g, () => maybeTermWrap(katexHTML("\\lambda"), "\u03bb")],
+    [/\u03bc/g, () => maybeTermWrap(katexHTML("\\mu"), "\u03bc")],
+    [/\u03c0/g, () => maybeTermWrap(katexHTML("\\pi"), "\u03c0")],
+    [/\u03c1/g, () => maybeTermWrap(katexHTML("\\rho"), "\u03c1")],
+    [/\u03c3/g, () => maybeTermWrap(katexHTML("\\sigma"), "\u03c3")],
+    [/\u0394/g, () => katexHTML("\\Delta")],
+    // Simple arrows used in explanations
+    [/→/g, () => katexHTML("\\rightarrow")],
+    [/↑/g, () => katexHTML("\\uparrow")],
+    [/↓/g, () => katexHTML("\\downarrow")],
+  ];
+
+  for (const [pat, fn] of replacements) {
+    s = s.replace(pat, fn);
+  }
+  return s;
+}
+
+/* ---- Glossary term linking (plain-text leftovers) ---- */
 function escapeRegExp(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function isExactOnly(key) {
-  // Single letters, pure acronyms, subscripts, Greek → exact case only
   if (key.length <= 2) return true;
   if (key === key.toUpperCase() && /^[A-Z][A-Z0-9\-]*$/.test(key)) return true;
   if (/[_\u03b1-\u03c9\u0391-\u03a9]/.test(key)) return true;
@@ -23,17 +85,18 @@ function isExactOnly(key) {
 }
 
 function linkTerms(text) {
+  // First: math beautify (produces KaTeX HTML for symbols)
+  let result = beautifyMath(text);
+
   const glossary = window.GLOSSARY || {};
   const keys = Object.keys(glossary).sort((a, b) => b.length - a.length);
-  if (!keys.length) return String(text);
+  if (!keys.length) return result;
 
-  const exactKeys = keys.filter(isExactOnly);
+  // Skip keys already fully rendered as math (Greek, subscripts)
+  const skip = new Set(["\u03b1","\u03b2","\u03b3","\u03b4","\u03b5","\u03b8","\u03bb","\u03bc","\u03c0","\u03c1","\u03c3","\u0394\u03c0","u_n","Y_D","YD"]);
+  const exactKeys = keys.filter(k => isExactOnly(k) && !skip.has(k));
   const looseKeys = keys.filter(k => !isExactOnly(k));
 
-  let result = String(text);
-
-  // 1) Exact-case terms (G, Y, IS, LM, u_n, μ, …)
-  // Use lookaround that treats letters/digits/underscore as "inside a word"
   if (exactKeys.length) {
     const alt = exactKeys.map(escapeRegExp).join("|");
     const pat = new RegExp("(?<![A-Za-z0-9_])(" + alt + ")(?![A-Za-z0-9_])", "g");
@@ -42,12 +105,10 @@ function linkTerms(text) {
     );
   }
 
-  // 2) Longer phrases – case-insensitive
   if (looseKeys.length) {
     const alt = looseKeys.map(escapeRegExp).join("|");
     const pat = new RegExp("(?<![A-Za-z0-9_])(" + alt + ")(?![A-Za-z0-9_])", "gi");
     result = result.replace(pat, (match) => {
-      // Avoid wrapping inside an existing span attribute/value
       const key = looseKeys.find(k => k.toLowerCase() === match.toLowerCase()) || match;
       return `<span class="term" data-term="${key}">${match}</span>`;
     });
@@ -69,7 +130,7 @@ function showBubble(termEl) {
 
   const bubble = document.createElement("div");
   bubble.className = "term-bubble";
-  bubble.innerHTML = `<div class="bubble-title">${key}</div>${def}`;
+  bubble.innerHTML = `<div class="bubble-title">${key}</div>${beautifyMath(def)}`;
   document.body.appendChild(bubble);
   activeBubble = bubble;
 
@@ -240,11 +301,19 @@ function answerTF(val, q) {
   updateStats();
 }
 
-$("relevance").oninput = () => { $("relValue").textContent = $("relevance").value + "+"; filterQuestions(); };
-$("topicFilter").onchange = filterQuestions;
-$("mode").onchange = filterQuestions;
-$("startBtn").onclick = () => { score = 0; answered = 0; filterQuestions(); showQuestion(); };
-$("nextBtn").onclick = () => { currentIdx++; showQuestion(); };
+function boot() {
+  $("relevance").oninput = () => { $("relValue").textContent = $("relevance").value + "+"; filterQuestions(); };
+  $("topicFilter").onchange = filterQuestions;
+  $("mode").onchange = filterQuestions;
+  $("startBtn").onclick = () => { score = 0; answered = 0; filterQuestions(); showQuestion(); };
+  $("nextBtn").onclick = () => { currentIdx++; showQuestion(); };
+  filterQuestions();
+  console.log("BMAK quiz ready –", getQuestions().length, "questions;", Object.keys(window.GLOSSARY || {}).length, "terms; KaTeX:", typeof katex !== "undefined");
+}
 
-filterQuestions();
-console.log("BMAK quiz ready –", getQuestions().length, "questions;", Object.keys(window.GLOSSARY || {}).length, "terms");
+// Wait for deferred KaTeX if needed
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => setTimeout(boot, 50));
+} else {
+  setTimeout(boot, 50);
+}
