@@ -17,11 +17,22 @@ window.GLOSSARY = {
   "N": "Employment (number of workers).",
   "u": "Unemployment rate.",
   "u_n": "Natural rate of unemployment: the rate at which WS and PS intersect.",
-  "μ": "Markup of price over marginal cost. Higher μ lowers the real wage in PS and raises u_n.",
   "z": "Catch-all factor shifting the wage-setting relation (benefits, unions, etc.). Higher z raises u_n.",
+
+  /* ---- Greek letters ---- */
+  "α": "Often the slope of the Phillips curve: how strongly inflation responds to the unemployment gap (Δπ = −α(u − u_n)).",
+  "β": "Generic preference / discount parameter, or a coefficient in behavioural equations.",
+  "γ": "Sometimes used for the growth rate of technology or for a behavioural coefficient.",
+  "δ": "Depreciation rate of capital in the Solow model (fraction of the capital stock that wears out each period).",
   "ε": "Real exchange rate. A rise in ε is a real appreciation (domestic goods relatively more expensive).",
-  "π": "Inflation rate.",
-  "θ": "Reserve ratio (reserves / deposits) in the money-multiplier formula.",
+  "θ": "Reserve ratio (reserves / deposits) in the money-multiplier formula (1+c)/(c+θ).",
+  "λ": "Sometimes a Lagrange multiplier or a speed-of-adjustment parameter.",
+  "μ": "Markup of price over marginal cost. Higher μ lowers the real wage in PS and raises u_n.",
+  "π": "Inflation rate (percentage change in the price level).",
+  "πᵉ": "Expected inflation. Under adaptive expectations, πᵉ_t = π_{t−1}.",
+  "ρ": "Sometimes the real interest rate or a discount rate in intertemporal models.",
+  "σ": "Sometimes the intertemporal elasticity of substitution or a standard-deviation parameter.",
+  "Δπ": "Change in the inflation rate. Central object of the accelerationist Phillips curve.",
 
   /* ---- Core model names ---- */
   "IS": "IS curve: combinations of Y and i (or r) that clear the goods market. Downward-sloping.",
