@@ -1,24 +1,24 @@
 window.QUESTIONS = (window.QUESTIONS || []).concat([
   // ===== Multi-period inflation paths =====
   {id:"fin01",type:"numerical",topic:"pc",examRelevance:5,source:"Multi-period PC",
-   question:"Accelerationist PC: Δπ = −0.5(u−0.06). Period 1: u=0.04. By how many pp does inflation change in period 1?",
+   question:"Accelerationist PC: Δπ = −0.5(u−0.06). Period 1: u=0.04. By how many percentage points does inflation change in period 1?",
    answer:1,tolerance:0,
    explanation:"Δπ = −0.5(0.04−0.06)=+0.01 → +1 pp."},
 
   {id:"fin02",type:"numerical",topic:"pc",examRelevance:5,source:"Multi-period PC",
-   question:"Same PC. If u stays at 0.04 for a second period, additional change in inflation in period 2 (pp)?",
+   question:"Accelerationist PC: Δπ = −0.5(u−0.06). Unemployment stays at u=0.04 for a second period. Additional change in inflation in period 2 (pp)?",
    answer:1,tolerance:0,
-   explanation:"Same gap → another +1 pp. Inflation keeps accelerating."},
+   explanation:"Same gap → another +1 pp. Inflation keeps accelerating under adaptive expectations."},
 
   {id:"fin03",type:"numerical",topic:"pc",examRelevance:5,source:"Multi-period PC",
-   question:"Same PC. After two periods at u=0.04, cumulative change in the inflation rate (pp)?",
+   question:"Accelerationist PC: Δπ = −0.5(u−0.06). After two consecutive periods at u=0.04, cumulative change in the inflation rate (pp)?",
    answer:2,tolerance:0,
-   explanation:"+1 + +1 = +2 pp."},
+   explanation:"+1 pp each period → cumulative +2 pp."},
 
   {id:"fin04",type:"numerical",topic:"pc",examRelevance:5,source:"Multi-period PC",
-   question:"Accelerationist PC: Δπ=−0.4(u−0.05). CB wants to reduce inflation by 2 pp over two periods with constant u. What constant u is required?",
+   question:"Accelerationist PC: Δπ=−0.4(u−0.05). The CB wants to reduce inflation by 2 pp over two periods with a constant unemployment rate. What constant u is required?",
    answer:0.075,tolerance:0.001,
-   explanation:"Need Δπ=−1 pp each period: −1=−0.4(u−0.05)×100 → 0.01=0.4(u−0.05) → u−0.05=0.025 → u=0.075."},
+   explanation:"Need Δπ=−1 pp each period: −0.01=−0.4(u−0.05) → u−0.05=0.025 → u=0.075."},
 
   {id:"fin05",type:"truefalse",topic:"pc",examRelevance:5,source:"Multi-period PC",
    question:"Under adaptive expectations, a temporary one-period boom (u < u_n for one period only) permanently raises the inflation rate thereafter if expectations are not re-anchored.",
@@ -27,36 +27,36 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
 
   // ===== Long HW-style simultaneous systems =====
   {id:"fin06",type:"numerical",topic:"islm",examRelevance:5,source:"Long system",
-   question:"Goods: C=200+0.75(Y−T), I=300−50r, G=400, T=200. Money: M/P=0.5Y−100r, M/P=500. Equilibrium r?",
-   answer:2,tolerance:0.1,
-   explanation:"IS: Y=200+0.75(Y−200)+300−50r+400 → Y=750+0.75Y−50r → 0.25Y=750−50r → Y=3000−200r. LM: 500=0.5Y−100r → Y=1000+200r. Set equal: 3000−200r=1000+200r → 2000=400r → r=5. Wait recalculate carefully."},
+   question:"Goods: C=200+0.75(Y−T), I=300−50r, G=400, T=200. Money: M/P=0.5Y−100r with M/P=500. Equilibrium interest rate r?",
+   answer:5,tolerance:0.05,
+   explanation:"IS: Y=3000−200r. LM: Y=1000+200r. Set equal: 3000−200r=1000+200r → 2000=400r → r=5."},
 
   {id:"fin07",type:"numerical",topic:"islm",examRelevance:5,source:"Long system",
-   question:"IS: Y=2500−100r. LM: Y=1000+50r. Equilibrium Y?",
-   answer:2000,tolerance:0,
-   explanation:"2500−100r=1000+50r → 1500=150r → r=10; Y=1000+500=1500. Recheck: 2500−100×10=1500. Yes Y=1500."},
+   question:"IS: Y=2500−100r. LM: Y=1000+50r. Equilibrium output Y?",
+   answer:1500,tolerance:0,
+   explanation:"2500−100r=1000+50r → 1500=150r → r=10; Y=1000+50×10=1500."},
 
   {id:"fin08",type:"numerical",topic:"islm",examRelevance:5,source:"Long system",
-   question:"IS: Y=2500−100r. LM: Y=1000+50r. Equilibrium r?",
+   question:"IS: Y=2500−100r. LM: Y=1000+50r. Equilibrium interest rate r?",
    answer:10,tolerance:0,
-   explanation:"From previous: r=10."},
+   explanation:"2500−100r=1000+50r → 1500=150r → r=10."},
 
   {id:"fin09",type:"numerical",topic:"islm",examRelevance:5,source:"Long system",
-   question:"Same IS. After fiscal expansion IS becomes Y=2800−100r (same LM). New equilibrium Y?",
+   question:"Originally IS: Y=2500−100r and LM: Y=1000+50r. After a fiscal expansion the IS curve becomes Y=2800−100r (LM unchanged). New equilibrium Y?",
    answer:1600,tolerance:0,
-   explanation:"2800−100r=1000+50r → 1800=150r → r=12; Y=1000+600=1600."},
+   explanation:"2800−100r=1000+50r → 1800=150r → r=12; Y=1000+50×12=1600."},
 
   {id:"fin10",type:"numerical",topic:"goods",examRelevance:5,source:"Long system",
-   question:"C=100+0.8(Y−T), I=200+0.1Y−30r, G=300, T=100, r=5 (fixed by CB). Equilibrium Y?",
-   answer:2200,tolerance:1,
-   explanation:"Y=100+0.8(Y−100)+200+0.1Y−150+300 → Y=370+0.9Y → 0.1Y=370 → Y=3700. Recalculate: autonomous=100−80+200−150+300=370; leakage=1−0.8−0.1=0.1; Y=3700."},
+   question:"C=100+0.8(Y−T), I=200+0.1Y−30r, G=300, T=100, and the CB fixes r=5. Equilibrium Y?",
+   answer:3700,tolerance:1,
+   explanation:"Autonomous demand = 100−0.8×100+200−30×5+300=370. Multiplier = 1/(1−0.8−0.1)=10. Y=10×370=3700."},
 
   {id:"fin11",type:"numerical",topic:"goods",examRelevance:5,source:"Long system",
-   question:"Same as fin10 but r rises to 6. New equilibrium Y?",
+   question:"C=100+0.8(Y−T), I=200+0.1Y−30r, G=300, T=100. The CB raises the policy rate from r=5 to r=6. New equilibrium Y?",
    answer:3400,tolerance:1,
-   explanation:"Extra −30 in autonomous → autonomous=340; Y=3400."},
+   explanation:"Autonomous demand = 100−80+200−30×6+300=340. Multiplier=10. Y=3400."},
 
-  // ===== Mechanism explanations (MCQ that force reasoning) =====
+  // ===== Mechanism explanations =====
   {id:"fin12",type:"mcq",topic:"islm",examRelevance:5,source:"Mechanism",
    question:"Explain the mechanism: Why does a rise in G raise the interest rate in the IS-LM model?",
    options:[
