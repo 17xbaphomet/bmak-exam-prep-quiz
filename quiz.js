@@ -1,6 +1,7 @@
-/* BMAK Exam Prep Quiz – compatible with modular questions/*.js */
+/* BMAK Exam Prep Quiz – modular questions + clickable glossary terms */
 let filtered = [], currentIdx = 0, score = 0, answered = 0;
 let answeredIds = new Set(JSON.parse(localStorage.getItem("bmak_answered") || "[]"));
+let activeBubble = null;
 
 const $ = id => document.getElementById(id);
 
@@ -8,6 +9,84 @@ function getQuestions() {
   return window.QUESTIONS || [];
 }
 
+/* ---- Glossary term linking ---- */
+function escapeRegExp(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function linkTerms(text) {
+  const glossary = window.GLOSSARY || {};
+  // Longest keys first so "IS-LM-PC" matches before "IS"
+  const keys = Object.keys(glossary).sort((a, b) => b.length - a.length);
+  if (!keys.length) return text;
+
+  const pattern = new RegExp(
+    "\\b(" + keys.map(escapeRegExp).join("|") + ")\\b",
+    "gi"
+  );
+
+  return text.replace(pattern, (match) => {
+    // Find canonical key (case-insensitive)
+    const key = keys.find(k => k.toLowerCase() === match.toLowerCase()) || match;
+    return `<span class="term" data-term="${key}">${match}</span>`;
+  });
+}
+
+function hideBubble() {
+  if (activeBubble) {
+    activeBubble.remove();
+    activeBubble = null;
+  }
+}
+
+function showBubble(termEl) {
+  hideBubble();
+  const key = termEl.dataset.term;
+  const glossary = window.GLOSSARY || {};
+  const def = glossary[key] || glossary[Object.keys(glossary).find(k => k.toLowerCase() === key.toLowerCase())];
+  if (!def) return;
+
+  const bubble = document.createElement("div");
+  bubble.className = "term-bubble";
+  bubble.innerHTML = `<div class="bubble-title">${key}</div>${def}`;
+  document.body.appendChild(bubble);
+  activeBubble = bubble;
+
+  const rect = termEl.getBoundingClientRect();
+  const bubbleRect = bubble.getBoundingClientRect();
+  let top = window.scrollY + rect.top - bubbleRect.height - 12;
+  let left = window.scrollX + rect.left;
+
+  // Keep inside viewport
+  if (top < window.scrollY + 8) {
+    top = window.scrollY + rect.bottom + 12;
+  }
+  if (left + bubbleRect.width > window.scrollX + window.innerWidth - 8) {
+    left = window.scrollX + window.innerWidth - bubbleRect.width - 8;
+  }
+  if (left < 8) left = 8;
+
+  bubble.style.top = top + "px";
+  bubble.style.left = left + "px";
+}
+
+// Delegate clicks on terms
+document.addEventListener("click", (e) => {
+  const term = e.target.closest(".term");
+  if (term) {
+    e.stopPropagation();
+    if (activeBubble && activeBubble.dataset.for === term.dataset.term) {
+      hideBubble();
+    } else {
+      showBubble(term);
+      if (activeBubble) activeBubble.dataset.for = term.dataset.term;
+    }
+  } else {
+    hideBubble();
+  }
+});
+
+/* ---- Core quiz logic ---- */
 function filterQuestions() {
   const bank = getQuestions();
   const minRel = +$("relevance").value;
@@ -34,6 +113,7 @@ function updateStats() {
 }
 
 function showQuestion() {
+  hideBubble();
   if (currentIdx >= filtered.length) {
     $("quizArea").innerHTML = `<h2>Finished!</h2><p>Score: <strong>${score}</strong> / ${answered}</p>
       <p class="muted">Bank size: ${getQuestions().length} questions</p>
@@ -42,7 +122,6 @@ function showQuestion() {
     return;
   }
 
-  // Restore structure if previously overwritten by finished screen
   if (!$("qText")) {
     $("quizArea").innerHTML = `
       <div id="tags"></div>
@@ -76,7 +155,8 @@ function showQuestion() {
     <span class="tag">${q.topic}</span>
     <span class="tag">${q.source || ""}</span>`;
 
-  $("qText").textContent = q.question;
+  // Link glossary terms in the question text
+  $("qText").innerHTML = linkTerms(q.question);
 
   $("optionsArea").classList.add("hidden");
   $("numericalArea").classList.add("hidden");
@@ -88,8 +168,11 @@ function showQuestion() {
     q.options.forEach((opt, i) => {
       const div = document.createElement("div");
       div.className = "option";
-      div.textContent = opt;
-      div.onclick = () => answerMCQ(i, q);
+      div.innerHTML = linkTerms(opt);
+      div.onclick = (e) => {
+        if (e.target.closest(".term")) return; // don't answer when clicking a term
+        answerMCQ(i, q);
+      };
       $("optionsArea").appendChild(div);
     });
   } else if (q.type === "numerical") {
@@ -111,7 +194,7 @@ function showFeedback(correct, explanation) {
   const fb = $("feedback");
   fb.classList.add("show", correct ? "correct" : "wrong");
   fb.innerHTML = (correct ? "✓ Correct" : "✗ Incorrect") +
-    `<div class="explanation">${explanation}</div>`;
+    `<div class="explanation">${linkTerms(explanation)}</div>`;
   $("nextBtn").classList.remove("hidden");
 }
 
@@ -174,6 +257,5 @@ $("nextBtn").onclick = () => {
   showQuestion();
 };
 
-// Initial filter (bank already loaded by preceding modular scripts)
 filterQuestions();
-console.log("BMAK quiz ready –", getQuestions().length, "questions loaded");
+console.log("BMAK quiz ready –", getQuestions().length, "questions loaded;", Object.keys(window.GLOSSARY || {}).length, "glossary terms");
