@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMAK Macroeconomics 1 – Exam Prep Quiz</title>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>BMAK Macroeconomics 1</h1>
+    <p class="subtitle">Exam-prep quiz · Prioritized by exam relevance · Blanchard + lectures + HWs + sample exam</p>
+
+    <div class="controls">
+      <div>
+        <label>Min. Exam Relevance</label>
+        <input type="range" id="relevance" min="1" max="5" value="3">
+        <span id="relValue">3+</span>
+      </div>
+      <div>
+        <label>Topic</label>
+        <select id="topicFilter">
+          <option value="all">All topics</option>
+          <option value="goods">Goods Market & Multiplier</option>
+          <option value="money">Money Market & Banking</option>
+          <option value="islm">IS-LM Model</option>
+          <option value="labor">Labor Market (WS-PS)</option>
+          <option value="pc">Phillips Curve</option>
+          <option value="medium">IS-LM-PC / Medium Run</option>
+          <option value="growth">Growth & Solow</option>
+          <option value="open">Open Economy</option>
+          <option value="accounts">National Accounts</option>
+        </select>
+      </div>
+      <div>
+        <label>Mode</label>
+        <select id="mode">
+          <option value="exam">Exam Mode (high relevance first)</option>
+          <option value="learn">Learn Mode</option>
+        </select>
+      </div>
+      <button id="startBtn">Start / Restart</button>
+      <button id="nextBtn" class="secondary hidden">Next →</button>
+    </div>
+
+    <div class="stats">
+      <div>Score: <strong id="score">0</strong> / <span id="totalAnswered">0</span></div>
+      <div>Remaining: <strong id="remaining">0</strong></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+
+    <div id="quizArea" class="card hidden">
+      <div id="tags"></div>
+      <div class="question-text" id="qText"></div>
+      <div id="optionsArea" class="options"></div>
+      <div id="numericalArea" class="hidden">
+        <input type="number" id="numInput" placeholder="Enter number…" step="any">
+        <button id="submitNum">Submit</button>
+      </div>
+      <div id="tfArea" class="options hidden">
+        <div class="option" data-val="true">True</div>
+        <div class="option" data-val="false">False</div>
+      </div>
+      <div id="feedback" class="feedback"></div>
+    </div>
+
+    <div id="startScreen" class="card">
+      <p>Focus on the highest-probability exam material:</p>
+      <ul>
+        <li>Goods market equilibrium & multipliers</li>
+        <li>Money market / LM / banking</li>
+        <li>IS-LM model, shifts & policy effects</li>
+        <li>Labor market (WS-PS) & natural rate</li>
+        <li>Phillips curve & medium-run adjustment</li>
+        <li>Growth / Solow basics</li>
+      </ul>
+      <p class="muted">Use the filters to prioritize. Progress is saved in your browser.</p>
+    </div>
+  </div>
+
+  <script src="questions.js"></script>
+  <script src="quiz.js"></script>
+</body>
+</html>

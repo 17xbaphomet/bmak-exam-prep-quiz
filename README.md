@@ -4,14 +4,31 @@ Feature-rich **in-browser learning quiz** for the BMAK Macroeconomics 1 course (
 
 ## Quick Start
 
-1. Open [`bmak-quiz.html`](bmak-quiz.html) directly in any modern browser (Chrome, Firefox, Edge, Safari).
-2. Or clone the repo and serve it:
-   ```bash
-   git clone https://github.com/17xbaphomet/bmak-exam-prep-quiz.git
-   cd bmak-exam-prep-quiz
-   python -m http.server 8000
-   ```
-   Then visit http://localhost:8000/bmak-quiz.html
+### Multi-file version (recommended)
+
+```bash
+git clone https://github.com/17xbaphomet/bmak-exam-prep-quiz.git
+cd bmak-exam-prep-quiz
+python -m http.server 8000
+```
+Then open http://localhost:8000 (or http://localhost:8000/index.html)
+
+You can also open `index.html` directly in most browsers (some browsers restrict local `file://` loading of external JS/CSS — use the local server if needed).
+
+### Single-file fallback
+A self-contained version is still available as `bmak-quiz.html` if you prefer one file.
+
+## Project Structure
+
+```
+bmak-exam-prep-quiz/
+├── index.html      # Main page structure
+├── styles.css      # Dark theme + layout
+├── questions.js    # Question bank (easy to expand)
+├── quiz.js         # Filtering, scoring, UI logic
+├── bmak-quiz.html  # Single-file version (legacy)
+└── README.md
+```
 
 ## Features
 
@@ -23,6 +40,7 @@ Feature-rich **in-browser learning quiz** for the BMAK Macroeconomics 1 course (
 - Progress tracking via `localStorage`
 - Pure client-side, works offline after first load (KaTeX CDN)
 - Dark theme optimized for long study sessions
+- Modular design — easy to add new questions in `questions.js`
 
 ## Content Coverage (highest exam weight first)
 
@@ -39,6 +57,25 @@ Feature-rich **in-browser learning quiz** for the BMAK Macroeconomics 1 course (
 | National accounts (GDP/GNP) | 2 |
 
 Questions are derived from the official lectures, Homework sets 1–6 (with solutions), and the WS2425 sample examination.
+
+## Adding new questions
+
+Edit `questions.js` and append objects to the `QUESTIONS` array. Each question needs:
+
+```js
+{
+  id: "unique-id",
+  type: "numerical" | "mcq" | "truefalse",
+  topic: "goods" | "money" | "islm" | "labor" | "pc" | "medium" | "growth" | "open" | "accounts",
+  examRelevance: 1-5,
+  source: "HW2 / Lecture 05 / Sample",
+  question: "...",
+  answer: ...,          // number, index, or boolean
+  options: [...],       // only for mcq
+  tolerance: 0,         // only for numerical
+  explanation: "..."
+}
+```
 
 ## Math skills practiced
 
