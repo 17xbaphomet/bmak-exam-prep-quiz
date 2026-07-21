@@ -30,7 +30,7 @@
           <option value="pc">Phillips Curve</option>
           <option value="medium">IS-LM-PC / Medium Run</option>
           <option value="growth">Growth & Solow</option>
-          <option value="open">Open Economy</option>
+          <option value="open">Open Economy / Mundell-Fleming</option>
           <option value="accounts">National Accounts</option>
         </select>
       </div>
@@ -75,12 +75,23 @@
         <li>Labor market (WS-PS) & natural rate</li>
         <li>Phillips curve & medium-run adjustment</li>
         <li>Growth / Solow basics</li>
+        <li>Open economy / Mundell-Fleming & policy effectiveness</li>
       </ul>
-      <p class="muted">Use the filters to prioritize. Progress is saved in your browser.</p>
+      <p class="muted">Use the filters to prioritize. Progress is saved in your browser.<br>
+      To add more questions later: drop a new file into <code>questions/</code> and add one <code><script></code> tag below.</p>
     </div>
   </div>
 
-  <script src="questions.js"></script>
+  <!-- Modular question bank: add new files here to extend without changing quiz logic -->
+  <script src="questions/01-goods.js"></script>
+  <script src="questions/02-money.js"></script>
+  <script src="questions/03-islm.js"></script>
+  <script src="questions/04-labor.js"></script>
+  <script src="questions/05-pc.js"></script>
+  <script src="questions/06-medium.js"></script>
+  <script src="questions/07-growth.js"></script>
+  <script src="questions/08-open-mf.js"></script>
+  <script src="questions/09-accounts.js"></script>
   <script src="quiz.js"></script>
 </body>
 </html>
