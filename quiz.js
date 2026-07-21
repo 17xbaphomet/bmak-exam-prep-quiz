@@ -14,40 +14,41 @@ function escapeRegExp(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+function isExactOnly(key) {
+  // Single letters, pure acronyms, subscripts, Greek → exact case only
+  if (key.length <= 2) return true;
+  if (key === key.toUpperCase() && /^[A-Z][A-Z0-9\-]*$/.test(key)) return true;
+  if (/[_\u03b1-\u03c9\u0391-\u03a9]/.test(key)) return true;
+  return false;
+}
+
 function linkTerms(text) {
   const glossary = window.GLOSSARY || {};
-  // Longest keys first so "IS-LM-PC" matches before "IS"
   const keys = Object.keys(glossary).sort((a, b) => b.length - a.length);
-  if (!keys.length) return text;
+  if (!keys.length) return String(text);
 
-  // Short uppercase acronyms (IS, LM, PC, NX, UIP, MPC…) must match exact case
-  // to avoid false positives on English words like "is", "in", "or".
-  const shortAcronyms = keys.filter(k => k.length <= 4 && k === k.toUpperCase() && /^[A-Z][A-Z0-9\-]*$/.test(k));
-  const longKeys = keys.filter(k => !shortAcronyms.includes(k));
+  const exactKeys = keys.filter(isExactOnly);
+  const looseKeys = keys.filter(k => !isExactOnly(k));
 
-  let result = text;
+  let result = String(text);
 
-  // 1) Short acronyms – case-SENSITIVE whole-word match
-  if (shortAcronyms.length) {
-    const patShort = new RegExp(
-      "\\b(" + shortAcronyms.map(escapeRegExp).join("|") + ")\\b",
-      "g"  // no "i" flag
+  // 1) Exact-case terms (G, Y, IS, LM, u_n, μ, …)
+  // Use lookaround that treats letters/digits/underscore as "inside a word"
+  if (exactKeys.length) {
+    const alt = exactKeys.map(escapeRegExp).join("|");
+    const pat = new RegExp("(?<![A-Za-z0-9_])(" + alt + ")(?![A-Za-z0-9_])", "g");
+    result = result.replace(pat, (match) =>
+      `<span class="term" data-term="${match}">${match}</span>`
     );
-    result = result.replace(patShort, (match) => {
-      return `<span class="term" data-term="${match}">${match}</span>`;
-    });
   }
 
-  // 2) Longer / mixed-case terms – case-insensitive
-  if (longKeys.length) {
-    const patLong = new RegExp(
-      "\\b(" + longKeys.map(escapeRegExp).join("|") + ")\\b",
-      "gi"
-    );
-    result = result.replace(patLong, (match) => {
-      // Skip if already inside a term span
-      // (simple guard: if we just wrapped short acronyms, avoid double-wrap)
-      const key = longKeys.find(k => k.toLowerCase() === match.toLowerCase()) || match;
+  // 2) Longer phrases – case-insensitive
+  if (looseKeys.length) {
+    const alt = looseKeys.map(escapeRegExp).join("|");
+    const pat = new RegExp("(?<![A-Za-z0-9_])(" + alt + ")(?![A-Za-z0-9_])", "gi");
+    result = result.replace(pat, (match) => {
+      // Avoid wrapping inside an existing span attribute/value
+      const key = looseKeys.find(k => k.toLowerCase() === match.toLowerCase()) || match;
       return `<span class="term" data-term="${key}">${match}</span>`;
     });
   }
@@ -56,10 +57,7 @@ function linkTerms(text) {
 }
 
 function hideBubble() {
-  if (activeBubble) {
-    activeBubble.remove();
-    activeBubble = null;
-  }
+  if (activeBubble) { activeBubble.remove(); activeBubble = null; }
 }
 
 function showBubble(termEl) {
@@ -80,12 +78,9 @@ function showBubble(termEl) {
   let top = window.scrollY + rect.top - bubbleRect.height - 12;
   let left = window.scrollX + rect.left;
 
-  if (top < window.scrollY + 8) {
-    top = window.scrollY + rect.bottom + 12;
-  }
-  if (left + bubbleRect.width > window.scrollX + window.innerWidth - 8) {
+  if (top < window.scrollY + 8) top = window.scrollY + rect.bottom + 12;
+  if (left + bubbleRect.width > window.scrollX + window.innerWidth - 8)
     left = window.scrollX + window.innerWidth - bubbleRect.width - 8;
-  }
   if (left < 8) left = 8;
 
   bubble.style.top = top + "px";
@@ -96,15 +91,12 @@ document.addEventListener("click", (e) => {
   const term = e.target.closest(".term");
   if (term) {
     e.stopPropagation();
-    if (activeBubble && activeBubble.dataset.for === term.dataset.term) {
-      hideBubble();
-    } else {
+    if (activeBubble && activeBubble.dataset.for === term.dataset.term) hideBubble();
+    else {
       showBubble(term);
       if (activeBubble) activeBubble.dataset.for = term.dataset.term;
     }
-  } else {
-    hideBubble();
-  }
+  } else hideBubble();
 });
 
 /* ---- Core quiz logic ---- */
@@ -117,11 +109,10 @@ function filterQuestions() {
     if (topic !== "all" && q.topic !== topic) return false;
     return true;
   });
-  if ($("mode").value === "exam") {
+  if ($("mode").value === "exam")
     filtered.sort((a, b) => b.examRelevance - a.examRelevance || (answeredIds.has(a.id) ? 1 : -1));
-  } else {
+  else
     filtered.sort((a, b) => (answeredIds.has(a.id) ? 1 : -1) || b.examRelevance - a.examRelevance);
-  }
   currentIdx = 0;
   updateStats();
 }
@@ -165,11 +156,7 @@ function showQuestion() {
   $("nextBtn").classList.add("hidden");
 
   const fb = $("feedback");
-  if (fb) {
-    fb.classList.remove("show");
-    fb.className = "feedback";
-    fb.innerHTML = "";
-  }
+  if (fb) { fb.classList.remove("show"); fb.className = "feedback"; fb.innerHTML = ""; }
 
   $("tags").innerHTML = `
     <span class="tag high">Relevance ${q.examRelevance}/5</span>
@@ -189,10 +176,7 @@ function showQuestion() {
       const div = document.createElement("div");
       div.className = "option";
       div.innerHTML = linkTerms(opt);
-      div.onclick = (e) => {
-        if (e.target.closest(".term")) return;
-        answerMCQ(i, q);
-      };
+      div.onclick = (e) => { if (e.target.closest(".term")) return; answerMCQ(i, q); };
       $("optionsArea").appendChild(div);
     });
   } else if (q.type === "numerical") {
@@ -226,8 +210,7 @@ function answerMCQ(idx, q) {
   });
   const correct = idx === q.answer;
   if (correct) score++;
-  answered++;
-  answeredIds.add(q.id);
+  answered++; answeredIds.add(q.id);
   localStorage.setItem("bmak_answered", JSON.stringify([...answeredIds]));
   showFeedback(correct, q.explanation);
   updateStats();
@@ -237,8 +220,7 @@ function answerNumerical(q) {
   const val = parseFloat($("numInput").value);
   const correct = !isNaN(val) && Math.abs(val - q.answer) <= (q.tolerance || 0);
   if (correct) score++;
-  answered++;
-  answeredIds.add(q.id);
+  answered++; answeredIds.add(q.id);
   localStorage.setItem("bmak_answered", JSON.stringify([...answeredIds]));
   showFeedback(correct, q.explanation + ` (Correct: ${q.answer})`);
   updateStats();
@@ -252,29 +234,17 @@ function answerTF(val, q) {
     if ((el.dataset.val === "true") === val && !correct) el.classList.add("wrong");
   });
   if (correct) score++;
-  answered++;
-  answeredIds.add(q.id);
+  answered++; answeredIds.add(q.id);
   localStorage.setItem("bmak_answered", JSON.stringify([...answeredIds]));
   showFeedback(correct, q.explanation);
   updateStats();
 }
 
-$("relevance").oninput = () => {
-  $("relValue").textContent = $("relevance").value + "+";
-  filterQuestions();
-};
+$("relevance").oninput = () => { $("relValue").textContent = $("relevance").value + "+"; filterQuestions(); };
 $("topicFilter").onchange = filterQuestions;
 $("mode").onchange = filterQuestions;
-$("startBtn").onclick = () => {
-  score = 0;
-  answered = 0;
-  filterQuestions();
-  showQuestion();
-};
-$("nextBtn").onclick = () => {
-  currentIdx++;
-  showQuestion();
-};
+$("startBtn").onclick = () => { score = 0; answered = 0; filterQuestions(); showQuestion(); };
+$("nextBtn").onclick = () => { currentIdx++; showQuestion(); };
 
 filterQuestions();
-console.log("BMAK quiz ready –", getQuestions().length, "questions loaded;", Object.keys(window.GLOSSARY || {}).length, "glossary terms");
+console.log("BMAK quiz ready –", getQuestions().length, "questions;", Object.keys(window.GLOSSARY || {}).length, "terms");
