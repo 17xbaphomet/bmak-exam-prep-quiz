@@ -30,6 +30,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          # Deploy only the static quiz files (exclude .github, scripts, etc.)
           path: '.'
 
       - name: Deploy to GitHub Pages
