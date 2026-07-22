@@ -1,4 +1,4 @@
-/* BMAK glossary – short-handles and technical terms */
+/* BMAK + BOEE glossary – short-handles and technical terms */
 window.GLOSSARY = {
   /* ---- Single-letter / short symbols (matched case-sensitively) ---- */
   "Y": "Output / income (real GDP in the model).",
@@ -21,10 +21,11 @@ window.GLOSSARY = {
 
   /* ---- Greek letters ---- */
   "α": "Often the slope of the Phillips curve: how strongly inflation responds to the unemployment gap (Δπ = −α(u − u_n)).",
-  "β": "Generic preference / discount parameter, or a coefficient in behavioural equations.",
+  "β": "Generic preference / discount parameter, or a coefficient in behavioural equations / regression.",
+  "β̂": "OLS estimate of a regression coefficient.",
   "γ": "Sometimes used for the growth rate of technology or for a behavioural coefficient.",
   "δ": "Depreciation rate of capital in the Solow model (fraction of the capital stock that wears out each period).",
-  "ε": "Real exchange rate. A rise in ε is a real appreciation (domestic goods relatively more expensive).",
+  "ε": "Real exchange rate. A rise in ε is a real appreciation (domestic goods relatively more expensive). Also used for the regression error term.",
   "θ": "Reserve ratio (reserves / deposits) in the money-multiplier formula (1+c)/(c+θ).",
   "λ": "Sometimes a Lagrange multiplier or a speed-of-adjustment parameter.",
   "μ": "Markup of price over marginal cost. Higher μ lowers the real wage in PS and raises u_n.",
@@ -67,5 +68,33 @@ window.GLOSSARY = {
   "high-powered money": "H (monetary base): currency in circulation plus bank reserves.",
   "Solow": "Solow growth model: capital accumulation, steady-state k*, long-run growth driven by technical progress g.",
   "golden rule": "Golden-rule capital stock: the steady-state k that maximises consumption per effective worker.",
-  "Fisher": "Fisher relation: i ≈ r + πᵉ. Nominal rate = real rate + expected inflation."
+  "Fisher": "Fisher relation: i ≈ r + πᵉ. Nominal rate = real rate + expected inflation.",
+
+  /* ---- BOEE / Econometrics terms ---- */
+  "CEF": "Conditional Expectation Function: E[y | x], the average value of y given x. The central object of interest in regression analysis.",
+  "Conditional Expectation Function": "E[y | x], the mean of the conditional distribution of y given x.",
+  "LIE": "Law of Iterated Expectations: E[Y] = E[E[Y | X]]. The overall average equals the average of the conditional averages.",
+  "Law of Iterated Expectations": "E[Y] = E[E[Y | X]]. Used constantly to prove properties of the error term under exogeneity.",
+  "OLS": "Ordinary Least Squares: the estimation method that chooses coefficients to minimise the sum of squared residuals.",
+  "Ordinary Least Squares": "Estimator that minimises ∑ êᵢ². Under E[e|x]=0 it recovers the best linear predictor / linear CEF.",
+  "residual": "Difference between the observed y and the fitted value: ê = y − ŷ. By construction ∑ ê = 0 and ∑ x ê = 0 after OLS with intercept.",
+  "exogeneity": "Mean independence: E[e | x] = 0. Key assumption that makes the linear CEF the best linear predictor and justifies interpreting OLS coefficients as partial effects.",
+  "mean independence": "E[e | x] = 0. Implies both E[e] = 0 and Cov(x, e) = 0.",
+  "marginal effect": "The derivative of the CEF (or of the fitted regression) with respect to a regressor. In a linear model it is constant (= β); in a quadratic it equals β₁ + 2β₂x.",
+  "interaction term": "Product of two regressors (e.g. x × D). Allows the effect of one variable to differ according to the level of the other.",
+  "attenuation bias": "Bias toward zero that arises from classical measurement error in a regressor.",
+  "omitted variable bias": "Bias in the OLS coefficients of included regressors when a relevant variable that is correlated with them is left out of the model.",
+  "OVB": "Omitted Variable Bias: bias that occurs when a relevant correlated variable is omitted.",
+  "multicollinearity": "High (or perfect) correlation among regressors. Inflates standard errors; perfect multicollinearity makes X′X singular so OLS cannot be computed.",
+  "heteroskedasticity": "Non-constant conditional variance of the error: Var(e | x) is not the same for all x. Classical SEs become invalid; use robust (HC) standard errors.",
+  "robust standard errors": "Heteroskedasticity-consistent (HC) standard errors that remain valid even when Var(e|x) is not constant. In R typically obtained via vcovHC.",
+  "HC": "Heteroskedasticity-Consistent (robust) standard errors / variance estimator.",
+  "vcovHC": "R function (sandwich package) that computes a heteroskedasticity-consistent variance-covariance matrix for an lm object.",
+  "consistency": "Large-sample property: plim β̂ = β. As n → ∞ the estimator converges in probability to the true value.",
+  "plim": "Probability limit. plim β̂ = β means the estimator is consistent.",
+  "CLT": "Central Limit Theorem. Under suitable conditions √n(β̂ − β) is approximately normal in large samples, justifying normal critical values for t- and F-tests.",
+  "t-statistic": "(estimate − hypothesized value) / standard error. Used for tests of a single coefficient.",
+  "F-statistic": "Statistic used for joint tests of several restrictions (e.g. several coefficients equal to zero).",
+  "saturated model": "Regression with a full set of group dummies (and no continuous regressors) that non-parametrically estimates the group-specific means of y.",
+  "dummy-variable trap": "Perfect multicollinearity that arises when a full set of mutually exclusive dummies is included together with an intercept. Solution: omit one dummy (or the intercept)."
 };
