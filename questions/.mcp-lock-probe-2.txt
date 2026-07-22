@@ -1,2 +1,0 @@
-Second MCP concurrency probe created at 2026-07-22T05:22 by Harper
-Safe to delete.
