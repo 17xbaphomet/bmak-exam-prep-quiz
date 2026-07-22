@@ -131,7 +131,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     id: "pm-eval-09",
     type: "mcq",
     topic: "scoring",
-    examRelevance: 5,
+    examRelevance: 4,
     source: "Mock Exam Problem 4e",
     question: "For a binary event $D = 1\\{Y > 0\\}$ evaluated with the Brier score, the optimal probability forecast when $Y \\sim U(0,5)$ is",
     options: [
