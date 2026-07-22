@@ -1,21 +1,14 @@
 {
   "name": "bmak-exam-prep-quiz",
-  "version": "1.0.0",
-  "description": "BMAK Macroeconomics 1 – modular exam-prep quiz (IS-LM, Mundell-Fleming, Policy Effectiveness, etc.)",
+  "version": "2.0.0",
+  "description": "Multi-subject exam-prep quiz (BMAK macro and extensible modules)",
   "private": true,
   "scripts": {
-    "validate": "node scripts/validate-questions.js",
-    "count": "node -e \"const fs=require('fs');const path=require('path');let n=0;const ids=new Set();fs.readdirSync('questions').filter(f=>f.endsWith('.js')).forEach(f=>{const c=fs.readFileSync(path.join('questions',f),'utf8');const m=c.match(/id:\\\"[^\\\"]+\\\"/g)||[];m.forEach(id=>ids.add(id));n+=m.length;});console.log('Total questions:',n);console.log('Unique IDs:',ids.size);\"",
+    "manifest": "node scripts/generate-manifest.js",
+    "validate": "node scripts/generate-manifest.js && node scripts/validate-questions.js",
+    "count": "node scripts/validate-questions.js --count-only",
     "serve": "npx --yes serve -l 3000 ."
   },
-  "keywords": [
-    "macroeconomics",
-    "bmak",
-    "is-lm",
-    "mundell-fleming",
-    "exam-prep",
-    "quiz"
-  ],
-  "author": "BMAK students / Grok team",
+  "keywords": ["macroeconomics", "bmak", "exam-prep", "quiz"],
   "license": "MIT"
 }
