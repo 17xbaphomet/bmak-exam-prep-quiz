@@ -24,8 +24,7 @@
 
     const loads = sub.files.map(file => {
       const primary = 'questions/' + subjectId + '/' + file;
-      const fallback = 'questions/' + file; // flat layout during migration
-      return injectScript(primary).catch(() => injectScript(fallback));
+      return injectScript(primary);
     });
 
     return Promise.all(loads).then(() => {
