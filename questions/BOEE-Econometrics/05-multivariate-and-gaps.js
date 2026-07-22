@@ -52,7 +52,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "dummies",
     examRelevance: 5,
-    source: "PS3 / Lecture",
+    source: "Lecture",
     question: "A saturated model with a full set of group dummies (and no intercept) estimates:",
     options: [
       "The overall mean of y",
@@ -84,7 +84,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "heteroskedasticity",
     examRelevance: 5,
-    source: "Lecture VI / PS5",
+    source: "Lecture",
     question: "Heteroskedasticity means:",
     options: [
       "The variance of the error term is constant",
@@ -100,7 +100,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "heteroskedasticity",
     examRelevance: 5,
-    source: "Lecture / PS5",
+    source: "Lecture",
     question: "When errors are heteroskedastic, the usual (non-robust) OLS standard errors are typically:",
     options: [
       "Still valid and unbiased",
@@ -109,14 +109,14 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
       "Exactly zero"
     ],
     answer: 1,
-    explanation: "Classical SEs assume homoskedasticity. Under heteroskedasticity they are inconsistent; use robust SEs (e.g. HC1/HC3 or vcovHC in R)."
+    explanation: "Classical SEs assume homoskedasticity. Under heteroskedasticity they are inconsistent; use robust SEs."
   },
   {
     id: "boee-mv-08",
     type: "mcq",
     topic: "heteroskedasticity",
     examRelevance: 4,
-    source: "PS5 notes",
+    source: "Lecture",
     question: "In R, a common way to obtain heteroskedasticity-robust standard errors for an lm object is to use:",
     options: [
       "summary(model)",
@@ -132,7 +132,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "asymptotics",
     examRelevance: 5,
-    source: "Lecture VI",
+    source: "Lecture",
     question: "The Central Limit Theorem is useful for OLS because in large samples:",
     options: [
       "The residuals become exactly normal",
@@ -141,14 +141,14 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
       "Heteroskedasticity disappears"
     ],
     answer: 1,
-    explanation: "CLT + consistency give asymptotic normality of the OLS estimator, which is the basis for large-sample t and F tests."
+    explanation: "CLT + consistency give asymptotic normality of the OLS estimator."
   },
   {
     id: "boee-mv-10",
     type: "mcq",
     topic: "asymptotics",
     examRelevance: 4,
-    source: "Lecture VI",
+    source: "Lecture",
     question: "Consistency of OLS means:",
     options: [
       "E[β̂] = β for every n",
@@ -157,26 +157,26 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
       "The residuals are always normal"
     ],
     answer: 1,
-    explanation: "Consistency is a large-sample property: the distribution of β̂ collapses around the true β."
+    explanation: "Consistency is a large-sample property."
   },
   {
     id: "boee-mv-11",
     type: "mcq",
     topic: "numerical",
     examRelevance: 5,
-    source: "PS3",
-    question: "For the n=4 sample (x,y) = (2,1), (1,2), (2,2), (3,4), the OLS intercept β̂₀ equals:",
+    source: "Lecture",
+    question: "For the sample (x,y) = (2,1), (1,2), (2,2), (3,4), the OLS intercept β̂₀ equals:",
     options: ["0.25", "1", "2.25", "0"],
     answer: 0,
-    explanation: "β̂₁ = 1, x̄ = 2, ȳ = 2.25 → β̂₀ = ȳ − β̂₁ x̄ = 2.25 − 2 = 0.25."
+    explanation: "β̂₁ = 1, x̄ = 2, ȳ = 2.25 → β̂₀ = 2.25 − 2 = 0.25."
   },
   {
     id: "boee-mv-12",
     type: "mcq",
     topic: "numerical",
     examRelevance: 4,
-    source: "PS3",
-    question: "In the same n=4 sample, the fitted value for the observation (x=3, y=4) is:",
+    source: "Lecture",
+    question: "Using the sample (x,y) = (2,1), (1,2), (2,2), (3,4) and OLS estimates β̂₀=0.25, β̂₁=1, the fitted value for the observation (x=3, y=4) is:",
     options: ["3.25", "4", "2.25", "1"],
     answer: 0,
     explanation: "ŷ = 0.25 + 1×3 = 3.25. Residual = 4 − 3.25 = 0.75."
@@ -186,7 +186,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "numerical",
     examRelevance: 4,
-    source: "PS4 style",
+    source: "Lecture",
     question: "ŷ = 50 + 2x − 0.05 x². The marginal effect at x = 30 is:",
     options: ["2", "−1", "1", "0.5"],
     answer: 1,
@@ -197,7 +197,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "interpretation",
     examRelevance: 4,
-    source: "Mock / PS5",
+    source: "Lecture",
     question: "A regression output shows a coefficient of 0.45 with robust standard error 0.12. The t-statistic for H₀: β = 0 is approximately:",
     options: ["0.45", "3.75", "0.12", "3.0"],
     answer: 1,
