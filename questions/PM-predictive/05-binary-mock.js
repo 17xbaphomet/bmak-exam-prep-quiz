@@ -7,8 +7,8 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     source: "Lecture 7–8",
     question: "In logistic regression the linear predictor $X'\\beta$ models",
     options: [
-      "The probability $P(Y=1|X)$ directly",
-      "The log-odds $\\log(P(Y=1|X)/(1-P(Y=1|X)))$",
+      "The probability $P(Y=1 \\mid X)$ directly",
+      "The log-odds $\\log\\bigl(P(Y=1 \\mid X)/(1-P(Y=1 \\mid X))\\bigr)$",
       "The density of $Y$",
       "The quantile function of $Y$"
     ],
@@ -45,7 +45,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
       "Calibration intercept against slope"
     ],
     answer: 1,
-    explanation: "For each possible threshold $z$ one computes HR$(z) = P(\\hat{Y} > z | Y=1)$ and FAR$(z) = P(\\hat{Y} > z | Y=0)$. The ROC is the plot of HR versus FAR."
+    explanation: "For each possible threshold $z$ one computes $\\mathrm{HR}(z) = P(\\hat{Y} > z \\mid Y=1)$ and $\\mathrm{FAR}(z) = P(\\hat{Y} > z \\mid Y=0)$. The ROC is the plot of HR versus FAR."
   },
   {
     id: "pm-bin-04",
@@ -69,7 +69,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     topic: "binary",
     examRelevance: 5,
     source: "Lecture 7 / Mock Q1e",
-    question: "Because a binary outcome satisfies $E[Y|X] = P(Y=1|X)$, any method developed for conditional-mean prediction can be used to produce probability forecasts.",
+    question: "Because a binary outcome satisfies $\\mathbb{E}[Y \\mid X] = P(Y=1 \\mid X)$, any method developed for conditional-mean prediction can be used to produce probability forecasts.",
     answer: true,
     explanation: "This equivalence is the reason the same loss functions (Brier = MSE), the same auto-calibration concept, and many of the same algorithms apply directly to binary probability prediction."
   },
@@ -87,7 +87,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
       "Whether the model was estimated by maximum likelihood"
     ],
     answer: 1,
-    explanation: "Absolute evaluation checks intrinsic properties of one forecast (calibration, sharpness, …). Relative evaluation compares two or more forecasts via a loss function."
+    explanation: "Absolute evaluation checks intrinsic properties of one forecast (calibration, sharpness, \\ldots). Relative evaluation compares two or more forecasts via a loss function."
   },
   {
     id: "pm-bin-07",
