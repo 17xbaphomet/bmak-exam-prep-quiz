@@ -22,7 +22,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     topic: "measurement-error",
     examRelevance: 5,
     source: "PS6 Q1a",
-    question: "The asymptotic bias under classical measurement error in the regressor equals:",
+    question: "Under classical measurement error in the regressor, the asymptotic bias of the OLS slope equals:",
     options: [
       "$\\beta_1 \\left( \\frac{\\mathrm{Var}(x^*)}{\\mathrm{Var}(x^*)+\\mathrm{Var}(v)} - 1 \\right)$",
       "$\\beta_1 \\frac{\\mathrm{Var}(v)}{\\mathrm{Var}(x^*)}$",
@@ -66,7 +66,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     topic: "endogeneity",
     examRelevance: 5,
     source: "Lecture VIII / PS6",
-    question: "A regressor $x$ is endogenous when:",
+    question: "A regressor $x$ is called endogenous when:",
     options: [
       "$E[e \\mid x] = 0$",
       "$\\mathrm{Cov}(x,e) \\neq 0$ (or $E[xe] \\neq 0$)",
@@ -114,10 +114,10 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     topic: "iv",
     examRelevance: 5,
     source: "PS6 Q2e",
-    question: "A common rule-of-thumb test for a weak instrument in the bivariate case is to look at the first-stage $t$-statistic for the instrument and compare it to:",
+    question: "A common rule-of-thumb check for a weak instrument in the bivariate (just-identified) case is that the first-stage $t$-statistic for the instrument should exceed roughly:",
     options: ["1.96", "3.2 (or a larger value suggested by recent research)", "1.64", "0"],
     answer: 1,
-    explanation: "A common rule of thumb is that the first-stage $t$-statistic should exceed roughly 3.2 (recent research suggests even larger thresholds)."
+    explanation: "A common rule of thumb is that the first-stage $t$-statistic should exceed roughly 3.2; recent research often recommends even larger thresholds."
   },
   {
     id: "boee-iv-09",
@@ -125,15 +125,15 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     topic: "iv",
     examRelevance: 4,
     source: "PS6 Q2",
-    question: "In the PISA private-school example the OLS coefficient on private school was about 1.0 while the 2SLS coefficient was about 2.0. This pattern is consistent with:",
+    question: "Suppose OLS of a test score on a private-school dummy yields a coefficient of approximately 1.0, while 2SLS using a valid instrument yields a coefficient of approximately 2.0. This pattern is most consistent with:",
     options: [
       "Classical measurement error in the private-school dummy",
-      "Positive omitted-variable bias in the OLS estimate (or the opposite direction of endogeneity bias)",
-      "A weak instrument",
+      "Endogeneity bias in the OLS estimate (OLS and IV differ)",
+      "A weak instrument that makes IV identical to OLS",
       "Heteroskedasticity only"
     ],
     answer: 1,
-    explanation: "When 2SLS is larger than OLS it suggests that OLS was biased downward (or that the direction of the endogeneity bias was negative)."
+    explanation: "A material difference between OLS and IV indicates that OLS was biased because of endogeneity; the direction of the difference reveals the direction of that bias."
   },
   {
     id: "boee-iv-10",

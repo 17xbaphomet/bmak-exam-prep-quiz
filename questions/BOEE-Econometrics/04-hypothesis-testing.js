@@ -4,30 +4,30 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "hypothesis-testing",
     examRelevance: 5,
-    source: "Lecture",
-    question: "Given $\\hat{\\beta}=0.68$, $se=0.055$. Test $H_0:\\beta=0$ vs two-sided alternative at 1%. Critical value = 2.58. t ≈ 12.36. Decision?",
+    source: "PS5 / Lecture",
+    question: "Given $\\hat{\\beta}=0.68$, $se=0.055$. Test $H_0:\\beta=0$ vs two-sided alternative at 1%. Critical value = 2.58. The t-statistic is approximately 12.36. Decision?",
     options: ["Reject $H_0$", "Fail to reject $H_0$", "The test is invalid", "Need a larger sample"],
     answer: 0,
-    explanation: "t ≈ 12.36 > 2.58 → reject. Highly significant."
+    explanation: "t ≈ 12.36 > 2.58 → reject. The coefficient is highly significant."
   },
   {
     id: "boee-ht-02",
     type: "mcq",
     topic: "hypothesis-testing",
     examRelevance: 5,
-    source: "Lecture",
-    question: "Given $\\hat{\\beta}=0.68$, $se=0.055$. Test $H_0:\\beta=0.5$ vs two-sided at 1% (crit = 2.58). t ≈ 3.27. Decision?",
+    source: "PS5",
+    question: "Given $\\hat{\\beta}=0.68$, $se=0.055$. Test $H_0:\\beta=0.5$ vs two-sided alternative at 1% (critical value = 2.58). The t-statistic is approximately 3.27. Decision?",
     options: ["Reject $H_0$", "Fail to reject $H_0$", "Inconclusive", "Accept $H_0$"],
     answer: 0,
-    explanation: "3.27 > 2.58 → reject. The coefficient is statistically different from 0.5."
+    explanation: "t = (0.68 − 0.5)/0.055 ≈ 3.27 > 2.58 → reject. The parameter is statistically different from 0.5."
   },
   {
     id: "boee-ht-03",
     type: "mcq",
     topic: "hypothesis-testing",
     examRelevance: 5,
-    source: "Lecture",
-    question: "$\\hat{\\beta}_{view}=0.026$, $se=0.029$, t ≈ 0.90. Two-sided 5% critical value = 1.96. Is the coefficient statistically significant?",
+    source: "PS5",
+    question: "Given $\\hat{\\beta}_{view}=0.026$, $se=0.029$, so t ≈ 0.90. Two-sided 5% critical value = 1.96. Is the view coefficient statistically significant at 5%?",
     options: ["Yes", "No", "Only at 10%", "Cannot tell without p-value"],
     answer: 1,
     explanation: "0.90 < 1.96 → fail to reject $H_0:\\beta=0$."
@@ -37,8 +37,8 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "hypothesis-testing",
     examRelevance: 5,
-    source: "Lecture",
-    question: "Given $\\hat{\\beta}_{view}=0.026$, $se=0.029$, t ≈ 0.90. Test $H_0:\\beta\\le 0$ vs $H_1:\\beta>0$ at 5%. Critical value = 1.64. Decision?",
+    source: "PS5",
+    question: "Given $\\hat{\\beta}_{view}=0.026$, $se=0.029$ (t ≈ 0.90). Test $H_0:\\beta\\le 0$ vs $H_1:\\beta>0$ at 5%. One-sided critical value = 1.64. Decision?",
     options: ["Reject $H_0$ (evidence of positive effect)", "Fail to reject $H_0$"],
     answer: 1,
     explanation: "t = 0.90 < 1.64 → fail to reject."
@@ -48,8 +48,8 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "hypothesis-testing",
     examRelevance: 5,
-    source: "Lecture",
-    question: "99% CI for $\\beta=0.68$ with $se=0.055$ (z=2.58) is approximately:",
+    source: "PS5",
+    question: "99% CI for $\\hat{\\beta}=0.68$ with $se=0.055$ (critical value z=2.58) is approximately:",
     options: ["[0.54, 0.82]", "[0.62, 0.74]", "[0.57, 0.79]", "[0.48, 0.88]"],
     answer: 0,
     explanation: "0.68 ± 2.58×0.055 ≈ [0.538, 0.822]."
@@ -59,8 +59,8 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "hypothesis-testing",
     examRelevance: 5,
-    source: "Lecture",
-    question: "F = 3.65 for 3 restrictions. Critical value $F_{3,\\infty}$ (5%) = 2.60. Conclusion?",
+    source: "PS5",
+    question: "An F-statistic equals 3.65 for 3 restrictions. The critical value $F_{3,\\infty}$ at 5% is 2.60. Conclusion?",
     options: ["Reject the joint null – jointly significant", "Fail to reject the joint null", "Inconclusive", "Use t-tests instead"],
     answer: 0,
     explanation: "3.65 > 2.60 → reject."
@@ -70,11 +70,11 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "hypothesis-testing",
     examRelevance: 5,
-    source: "Lecture",
-    question: "To test that three coefficients are jointly zero, the matrix $R$ in $R\\beta=c$ must have how many rows?",
+    source: "PS5",
+    question: "To test that three coefficients are jointly zero, the matrix $R$ in the restriction $R\\beta=c$ must have how many rows?",
     options: ["1", "2", "3", "6"],
     answer: 2,
-    explanation: "One row per restriction."
+    explanation: "One row per linear restriction."
   },
   {
     id: "boee-ht-08",
@@ -82,21 +82,21 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     topic: "hypothesis-testing",
     examRelevance: 4,
     source: "Lecture",
-    question: "A 95% CI is [–0.04, 0.12]. At the 5% level:",
+    question: "A 95% confidence interval is [–0.04, 0.12]. At the 5% level:",
     options: ["Reject $H_0:\\beta=0$", "Fail to reject $H_0:\\beta=0$", "The coefficient is positive", "The coefficient is zero"],
     answer: 1,
-    explanation: "Interval contains zero → fail to reject."
+    explanation: "The interval contains zero → fail to reject."
   },
   {
     id: "boee-ht-09",
     type: "mcq",
     topic: "hypothesis-testing",
     examRelevance: 5,
-    source: "Lecture",
-    question: "To test $H_0:\\beta_3=\\beta_4$, the correct single-row $R$ is:",
+    source: "PS5",
+    question: "To test $H_0:\\beta_3=\\beta_4$ (six coefficients total, indexed 0…5), the correct single-row $R$ is:",
     options: ["(0 0 0 1 –1 0)", "(0 0 0 1 1 0)", "(0 0 0 1 0 1)", "(1 1 1 0 0 0)"],
     answer: 0,
-    explanation: "Rβ = β3 – β4 = 0."
+    explanation: "Rβ = β₃ – β₄ = 0."
   },
   {
     id: "boee-ht-10",
@@ -114,8 +114,8 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "hypothesis-testing",
     examRelevance: 5,
-    source: "Lecture",
-    question: "F = 2.10 for 3 restrictions. Critical value = 2.60. Decision?",
+    source: "PS5",
+    question: "An F-statistic equals 2.10 for 3 restrictions. Critical value = 2.60. Decision?",
     options: ["Reject the joint null", "Fail to reject the joint null", "Individually significant", "Need more data"],
     answer: 1,
     explanation: "2.10 < 2.60 → fail to reject."
@@ -137,7 +137,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     topic: "hypothesis-testing",
     examRelevance: 4,
     source: "Lecture",
-    question: "Testing for a positive effect: t = 1.50, one-sided 5% crit = 1.64. Decision?",
+    question: "Testing for a positive effect: t = 1.50, one-sided 5% critical value = 1.64. Decision?",
     options: ["Reject $H_0$", "Fail to reject $H_0$"],
     answer: 1,
     explanation: "1.50 < 1.64 → fail to reject."
@@ -147,8 +147,8 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     type: "mcq",
     topic: "hypothesis-testing",
     examRelevance: 5,
-    source: "Lecture",
-    question: "A 99% CI is [0.538, 0.822]. Correct interpretation?",
+    source: "PS5 / Mock",
+    question: "A 99% confidence interval is [0.538, 0.822]. Correct frequentist interpretation?",
     options: [
       "We are 99% sure this interval contains the true β",
       "In repeated samples 99% of such intervals contain the true β; we do not know about this particular one",
@@ -156,18 +156,18 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
       "The coefficient is insignificant"
     ],
     answer: 1,
-    explanation: "Frequentist CI interpretation."
+    explanation: "Frequentist CI interpretation: the procedure covers the true value in 99% of repeated samples."
   },
   {
     id: "boee-ht-15",
     type: "mcq",
     topic: "hypothesis-testing",
     examRelevance: 5,
-    source: "Lecture",
-    question: "To test $\\beta_3 + \\beta_4 + \\beta_5 = 0$, the correct R row is:",
+    source: "PS5",
+    question: "To test $H_0:\\beta_3 + \\beta_4 + \\beta_5 = 0$ (six coefficients indexed 0…5), the correct R row is:",
     options: ["(0 0 0 1 1 1)", "(0 0 0 1 0 0)", "(0 0 0 1 –1 0)", "(1 1 1 0 0 0)"],
     answer: 0,
-    explanation: "Sums the three coefficients."
+    explanation: "The row picks out and sums the three coefficients."
   },
   {
     id: "boee-ht-16",
@@ -175,10 +175,10 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     topic: "hypothesis-testing",
     examRelevance: 4,
     source: "Lecture",
-    question: "F = 4.10 for 2 restrictions. Crit $F_{2,\\infty}$(5%) = 3.00. Conclusion?",
+    question: "F = 4.10 for 2 restrictions. Critical value $F_{2,\\infty}$ at 5% = 3.00. Conclusion?",
     options: ["Jointly significant", "Not jointly significant", "Individually significant", "Need t-tests"],
     answer: 0,
-    explanation: "4.10 > 3.00 → reject."
+    explanation: "4.10 > 3.00 → reject the joint null."
   },
   {
     id: "boee-ht-17",
@@ -194,7 +194,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
       "se / estimate"
     ],
     answer: 1,
-    explanation: "Standard definition."
+    explanation: "Standard definition of the t-statistic."
   },
   {
     id: "boee-ht-18",
@@ -210,23 +210,23 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
       "The model is misspecified"
     ],
     answer: 1,
-    explanation: "We never accept the null; we only fail to reject it."
+    explanation: "We never ‘accept’ the null; we only fail to reject it."
   },
   {
     id: "boee-ht-19",
     type: "mcq",
     topic: "hypothesis-testing",
     examRelevance: 5,
-    source: "Lecture",
-    question: "The correct null for “three coefficients are jointly insignificant” is:",
+    source: "PS5",
+    question: "The correct null hypothesis for “the three coefficients on pool, view and their interaction are jointly insignificant” is:",
     options: [
-      "$H_0: \\beta_1=0$",
-      "$H_0: \\beta_1=\\beta_2=\\beta_3=0$",
-      "$H_0: \\beta_1+\\beta_2+\\beta_3=0$",
-      "$H_0: \\beta_3=0$"
+      "$H_0: \\beta_{pool}=0$",
+      "$H_0: \\beta_{pool}=\\beta_{view}=\\beta_{int}=0$",
+      "$H_0: \\beta_{pool}+\\beta_{view}+\\beta_{int}=0$",
+      "$H_0: \\beta_{int}=0$"
     ],
     answer: 1,
-    explanation: "All three coefficients zero."
+    explanation: "Joint insignificance means all three coefficients equal zero simultaneously."
   },
   {
     id: "boee-ht-20",
@@ -234,8 +234,8 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     topic: "hypothesis-testing",
     examRelevance: 4,
     source: "Lecture",
-    question: "If a 95% CI for a coefficient contains zero, the coefficient is statistically insignificant at the 5% level (two-sided).",
+    question: "If a 95% confidence interval for a coefficient contains zero, the coefficient is statistically insignificant at the 5% level (two-sided test).",
     answer: true,
-    explanation: "The two-sided 5% t-test and the 95% CI are equivalent."
+    explanation: "The two-sided 5% t-test and the 95% CI are equivalent procedures."
   }
 ]);
