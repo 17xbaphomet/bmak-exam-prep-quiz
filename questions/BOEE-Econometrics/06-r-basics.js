@@ -5,147 +5,179 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     topic: "r-code",
     examRelevance: 5,
     source: "PS / Mock",
-    question: "Which R command estimates the linear model $y = \\beta_0 + \\beta_1 x + e$?",
+    question: "In R, which command fits the simple linear regression of y on x?",
     options: [
       "lm(y ~ x)",
-      "reg y x",
+      "reg(y ~ x)",
       "ols(y, x)",
-      "fit(y ~ x)"
+      "lm(y = x)"
     ],
     answer: 0,
-    explanation: "The standard function is lm() with a formula interface: dependent variable on the left of ~, regressors on the right."
+    explanation: "The standard formula interface is lm(y ~ x)."
   },
   {
     id: "boee-r-02",
     type: "mcq",
     topic: "r-code",
     examRelevance: 5,
-    source: "PS4 / Lecture",
-    question: "In an lm() formula, how do you include a quadratic term $x^2$?",
+    source: "PS4",
+    question: "To include a quadratic term in an lm() formula you write:",
     options: [
       "lm(y ~ x + x^2)",
       "lm(y ~ x + I(x^2))",
-      "lm(y ~ x + square(x))",
-      "lm(y ~ x*x)"
+      "lm(y ~ x + x**2)",
+      "lm(y ~ poly(x))"
     ],
     answer: 1,
-    explanation: "The I() function protects the arithmetic expression so that x^2 is treated as the square of x rather than as an interaction."
+    explanation: "Wrap powers in I() so R treats them as arithmetic."
   },
   {
     id: "boee-r-03",
     type: "mcq",
     topic: "r-code",
     examRelevance: 5,
-    source: "PS4",
-    question: "To include both main effects and the interaction of x and D in an lm formula you write:",
+    source: "PS5",
+    question: "lm(y ~ x1 * x2) is equivalent to:",
     options: [
-      "lm(y ~ x + D)",
-      "lm(y ~ x * D)   or   lm(y ~ x + D + x:D)",
-      "lm(y ~ x:D)",
-      "lm(y ~ x & D)"
+      "lm(y ~ x1 + x2)",
+      "lm(y ~ x1 + x2 + x1:x2)",
+      "lm(y ~ x1:x2)",
+      "lm(y ~ x1 x2)"
     ],
     answer: 1,
-    explanation: "The * operator expands to main effects plus the interaction; the : operator gives only the interaction."
+    explanation: "The * operator expands to main effects plus the interaction."
   },
   {
     id: "boee-r-04",
     type: "mcq",
     topic: "r-code",
-    examRelevance: 4,
-    source: "PS / Notes",
-    question: "After fitting model <- lm(y ~ x1 + x2, data = dat), the residuals are obtained by:",
+    examRelevance: 5,
+    source: "PS5",
+    question: "After model <- lm(y ~ x1 + x2), a standard way to get heteroskedasticity-robust SEs is:",
     options: [
-      "resid(model)   or   residuals(model)",
-      "model$e",
-      "error(model)",
-      "summary(model)$resid only"
+      "summary(model)",
+      "coeftest(model, vcov = vcovHC(model))",
+      "anova(model)",
+      "resid(model)"
     ],
-    answer: 0,
-    explanation: "resid() / residuals() extracts the OLS residuals. fitted() or predict() gives the fitted values."
+    answer: 1,
+    explanation: "Use sandwich::vcovHC together with lmtest::coeftest."
   },
   {
     id: "boee-r-05",
     type: "mcq",
     topic: "r-code",
-    examRelevance: 5,
-    source: "PS5",
-    question: "A common way to obtain heteroskedasticity-robust standard errors and the corresponding t-tests in R is:",
+    examRelevance: 4,
+    source: "PS",
+    question: "Which extracts the residuals from an lm object called model?",
     options: [
-      "summary(model)",
-      "coeftest(model, vcov = vcovHC(model))   (or equivalent with sandwich/lmtest)",
-      "anova(model)",
-      "confint(model)"
+      "resid(model) or residuals(model)",
+      "fitted(model)",
+      "coef(model)",
+      "vcov(model)"
     ],
-    answer: 1,
-    explanation: "vcovHC from the sandwich package (or similar) supplies a robust variance-covariance matrix; coeftest then reports the robust t-statistics."
+    answer: 0,
+    explanation: "resid() / residuals() return the OLS residuals."
   },
   {
     id: "boee-r-06",
     type: "mcq",
     topic: "r-code",
     examRelevance: 4,
-    source: "PS5 / Mock",
-    question: "To test a joint linear restriction (e.g. several coefficients equal zero) after an lm fit, a typical approach in the course materials is to use:",
+    source: "PS",
+    question: "Which gives the fitted values from model <- lm(y ~ x)?",
     options: [
-      "only individual t-tests",
-      "waldtest() or linearHypothesis() with a robust variance-covariance matrix",
-      "summary(model)$r.squared",
-      "plot(model)"
+      "fitted(model) or predict(model)",
+      "resid(model)",
+      "coef(model)",
+      "summary(model)"
     ],
-    answer: 1,
-    explanation: "waldtest (lmtest) or linearHypothesis (car) can test Rβ = c and accept a robust vcov."
+    answer: 0,
+    explanation: "fitted() returns Xβ̂."
   },
   {
     id: "boee-r-07",
     type: "mcq",
     topic: "r-code",
-    examRelevance: 4,
-    source: "Mock style",
-    question: "An R summary output shows: Estimate = 0.68, Std. Error = 0.055. The t-statistic reported for H0: β = 0 is approximately:",
+    examRelevance: 5,
+    source: "Mock",
+    question: "summary(model) shows Estimate = 0.68, Std. Error = 0.055. The t-value is approximately:",
     options: ["0.68", "12.36", "0.055", "1.96"],
     answer: 1,
-    explanation: "t = Estimate / Std.Error = 0.68 / 0.055 ≈ 12.36."
+    explanation: "t = 0.68 / 0.055 ≈ 12.36."
   },
   {
     id: "boee-r-08",
     type: "mcq",
     topic: "r-code",
     examRelevance: 4,
-    source: "PS notes",
-    question: "The formula lm(y ~ x1 + x2 + x1:x2) is equivalent to:",
+    source: "PS5",
+    question: "For joint tests with robust SEs after lm(), a common approach is:",
     options: [
-      "lm(y ~ x1 * x2)",
-      "lm(y ~ x1 + x2)",
-      "lm(y ~ x1:x2)",
-      "lm(y ~ x1 * x2 - 1)"
+      "summary() only",
+      "waldtest() or linearHypothesis() with a vcov argument",
+      "resid()",
+      "plot()"
     ],
-    answer: 0,
-    explanation: "x1 * x2 expands to the two main effects plus the interaction x1:x2."
+    answer: 1,
+    explanation: "waldtest / linearHypothesis accept a robust variance-covariance matrix."
   },
   {
     id: "boee-r-09",
-    type: "truefalse",
-    topic: "r-code",
-    examRelevance: 4,
-    source: "Lecture / PS",
-    question: "In R, summary(lm(y ~ x)) reports the usual (non-robust) standard errors by default.",
-    answer: true,
-    explanation: "Yes. To get heteroskedasticity-robust SEs you must request them explicitly (e.g. via vcovHC / coeftest or equivalent)."
-  },
-  {
-    id: "boee-r-10",
     type: "mcq",
     topic: "r-code",
     examRelevance: 4,
-    source: "PS3 style",
-    question: "After model <- lm(y ~ x, data = d), the OLS fitted values can be extracted by:",
+    source: "Lecture",
+    question: "By default an lm() formula includes an intercept. To suppress it you write:",
     options: [
-      "fitted(model)   or   predict(model)",
-      "resid(model)",
-      "coef(model)",
-      "model$x"
+      "+1",
+      "-1 or +0",
+      "intercept=FALSE",
+      "nointercept"
+    ],
+    answer: 1,
+    explanation: "Add -1 or +0 to the formula to drop the intercept."
+  },
+  {
+    id: "boee-r-10",
+    type: "truefalse",
+    topic: "r-code",
+    examRelevance: 4,
+    source: "PS5",
+    question: "Using coeftest(..., vcov = vcovHC) changes the coefficient point estimates.",
+    answer: false,
+    explanation: "Only the standard errors (and t/p-values) change; the OLS estimates stay the same."
+  },
+  {
+    id: "boee-r-11",
+    type: "mcq",
+    topic: "r-code",
+    examRelevance: 4,
+    source: "PS4",
+    question: "A correct way to let both the linear and quadratic income terms differ by a high-EL dummy is:",
+    options: [
+      "avginc * highEL + I(avginc^2) * highEL",
+      "avginc + highEL",
+      "avginc : highEL",
+      "I(avginc * highEL^2)"
     ],
     answer: 0,
-    explanation: "fitted() or predict() returns the vector of ŷᵢ."
+    explanation: "Interact both terms with the dummy."
+  },
+  {
+    id: "boee-r-12",
+    type: "mcq",
+    topic: "r-code",
+    examRelevance: 3,
+    source: "PS",
+    question: "Which extracts the estimated coefficients from an lm object m?",
+    options: [
+      "coef(m) or coefficients(m)",
+      "resid(m)",
+      "fitted(m)",
+      "vcov(m)"
+    ],
+    answer: 0,
+    explanation: "coef() returns the vector of β̂."
   }
 ]);
