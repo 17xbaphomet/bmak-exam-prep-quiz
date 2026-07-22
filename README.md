@@ -1,91 +1,169 @@
-# BMAK Macroeconomics 1 – Exam Prep Quiz
+# BMAK Exam Prep Quiz (multi-subject)
 
-Feature-rich **in-browser learning quiz** for the BMAK Macroeconomics 1 course (Blanchard textbook + Goethe University lectures, homeworks and sample exam).
+Feature-rich **in-browser learning quiz** for university courses.  
+Currently ships **BMAK · macro** (Blanchard + Goethe lectures / homeworks / sample exam).  
+The layout is designed so you can add further subjects **without changing `index.html` or loader code**.
 
-## Quick Start
-
-### Multi-file version (recommended)
+## Quick start
 
 ```bash
 git clone https://github.com/17xbaphomet/bmak-exam-prep-quiz.git
 cd bmak-exam-prep-quiz
-python -m http.server 8000
+npm run serve          # or: python -m http.server 8000
 ```
-Then open http://localhost:8000 (or http://localhost:8000/index.html)
 
-You can also open `index.html` directly in most browsers (some browsers restrict local `file://` loading of external JS/CSS — use the local server if needed).
+Open http://localhost:3000 (or :8000). Use the **subject selector** if more than one module is present.
 
-### Single-file fallback
-A self-contained version is still available as `bmak-quiz.html` if you prefer one file.
-
-## Project Structure
+## Project structure
 
 ```
 bmak-exam-prep-quiz/
-├── index.html      # Main page structure
-├── styles.css      # Dark theme + layout
-├── questions.js    # Question bank (easy to expand)
-├── quiz.js         # Filtering, scoring, UI logic
-├── bmak-quiz.html  # Single-file version (legacy)
-└── README.md
+├── index.html                 # Shell + subject selector
+├── styles.css
+├── quiz.js                    # Filtering, scoring, glossary, KaTeX
+├── glossary.js
+├── loader.js                  # Loads subject files from the manifest
+├── questions/
+│   ├── manifest.js            # Auto-generated – do not edit by hand
+│   ├── BMAK-macro/            # One folder per subject
+│   │   ├── 01-goods.js
+│   │   ├── 02-money.js
+│   │   ├── …
+│   │   └── 11-final-polish.js
+│   └── (optional flat fallbacks during migration)
+├── scripts/
+│   ├── generate-manifest.js   # Scans questions/ → manifest.js
+│   └── validate-questions.js  # ID uniqueness, schema checks
+├── package.json
+└── .github/workflows/         # CI validate + Pages deploy
 ```
+
+### Naming conventions (enforced by the scanner)
+
+| Kind | Pattern | Example |
+|------|---------|---------|
+| **Subject folder** | `^[A-Z]{2,4}-[a-zA-Z_]+$` | `BMAK-macro`, `MIKRO-costs`, `STAT-intro` |
+| **Question file** | `^[0-9]+[a-zA-Z-]*\.js$` | `01-goods.js`, `08-open-mf.js`, `12-extra.js` |
+
+Subject id becomes the selector value; the label is derived as `BMAK · macro` (hyphen → middle-dot).
+
+---
+
+## Adding a new subject / module
+
+You only add files under `questions/`. No changes to `index.html`, `loader.js`, or `quiz.js` are required.
+
+### 1. Create the subject folder
+
+```bash
+mkdir -p questions/MIKRO-costs
+```
+
+Folder name **must** match `XX-name` (2–4 uppercase letters, hyphen, then letters/underscores).
+
+### 2. Add question files
+
+Each file is a plain script that **appends** to the global bank:
+
+```js
+// questions/MIKRO-costs/01-basics.js
+window.QUESTIONS = (window.QUESTIONS || []).concat([
+  {
+    id: "mc01",                    // unique across the whole quiz
+    type: "mcq",                   // numerical | mcq | truefalse
+    topic: "costs",                // used by topic filters
+    examRelevance: 5,              // 1–5 (slider priority)
+    source: "Lecture 01",
+    question: "What is Selbstkosten?",
+    options: ["…", "…", "…", "…"],
+    answer: 0,                     // index for mcq; number; or boolean
+    tolerance: 0,                  // numerical only
+    explanation: "…"
+  }
+  // …more questions
+]);
+```
+
+Number files so order is stable (`01-…`, `02-…`, …). Any extra files that match the pattern are picked up automatically.
+
+### 3. Regenerate the manifest
+
+```bash
+npm run manifest
+# → rewrites questions/manifest.js from the directory scan
+```
+
+Or the full check:
+
+```bash
+npm run validate   # manifest + unique IDs + schema
+```
+
+### 4. Commit both content and manifest
+
+```bash
+git add questions/MIKRO-costs questions/manifest.js
+git commit -m "Add MIKRO-costs subject module"
+git push
+```
+
+After deploy (GitHub Pages) or a local refresh, the new subject appears in the selector.
+
+### Minimal checklist for a new subject
+
+- [ ] Folder name matches `^[A-Z]{2,4}-[a-zA-Z_]+$`
+- [ ] Files match `^[0-9]+[a-zA-Z-]*\.js$`
+- [ ] Every question uses `window.QUESTIONS = (window.QUESTIONS \|\| []).concat([…])`
+- [ ] Every `id` is unique **across all subjects**
+- [ ] `npm run validate` passes
+- [ ] `questions/manifest.js` committed after `npm run manifest`
+
+---
+
+## Adding questions to an existing subject
+
+1. Create e.g. `questions/BMAK-macro/12-new-topic.js` with the same `concat` pattern.
+2. Run `npm run manifest && npm run validate`.
+3. Commit the new file **and** the updated `manifest.js`.
+
+No HTML/JS loader edits needed.
+
+---
 
 ## Features
 
-- **Exam-relevance prioritization** (1–5 slider) – focus on the highest-probability topics first
-- Topic filter: Goods market, Money market, IS-LM, Labor (WS-PS), Phillips Curve, Medium-run IS-LM-PC, Growth/Solow, Open economy, National accounts
-- Exam Mode vs Learn Mode
-- Multiple question types: numerical (with tolerance), multiple-choice, true/false
-- Instant feedback with detailed explanations
-- Progress tracking via `localStorage`
-- Pure client-side, works offline after first load (KaTeX CDN)
-- Dark theme optimized for long study sessions
-- Modular design — easy to add new questions in `questions.js`
+- **Exam-relevance prioritization** (1–5 slider)
+- Topic filters, Exam / Learn modes
+- Numerical (tolerance), MCQ, true/false
+- Instant feedback + explanations
+- Clickable short-handles / Greek letters (glossary bubbles)
+- KaTeX math rendering
+- Progress via `localStorage`
+- Multi-subject selector driven by `manifest.js`
 
-## Content Coverage (highest exam weight first)
+## BMAK · macro coverage (highest weight first)
 
 | Topic | Relevance |
 |-------|-----------|
-| Goods market equilibrium & multipliers | 5 |
-| IS-LM model, shifts, fiscal/monetary policy, crowding-out | 5 |
-| Labor market (WS-PS), natural unemployment | 5 |
-| Phillips curve (adaptive expectations, accelerationist) | 5 |
-| Medium-run IS-LM-PC dynamics | 5 |
+| Goods market & multipliers | 5 |
+| IS-LM, policy, crowding-out | 5 |
+| Labor (WS-PS), natural unemployment | 5 |
+| Phillips curve (adaptive / accelerationist) | 5 |
+| Medium-run IS-LM-PC | 5 |
 | Money market & banking | 4 |
-| Growth / Solow model | 3 |
-| Open economy (UIP) | 3 |
-| National accounts (GDP/GNP) | 2 |
+| Growth / Solow | 3 |
+| Open economy (Mundell-Fleming, UIP) | 3–5 |
+| National accounts | 2 |
 
-Questions are derived from the official lectures, Homework sets 1–6 (with solutions), and the WS2425 sample examination.
+## npm scripts
 
-## Adding new questions
-
-Edit `questions.js` and append objects to the `QUESTIONS` array. Each question needs:
-
-```js
-{
-  id: "unique-id",
-  type: "numerical" | "mcq" | "truefalse",
-  topic: "goods" | "money" | "islm" | "labor" | "pc" | "medium" | "growth" | "open" | "accounts",
-  examRelevance: 1-5,
-  source: "HW2 / Lecture 05 / Sample",
-  question: "...",
-  answer: ...,          // number, index, or boolean
-  options: [...],       // only for mcq
-  tolerance: 0,         // only for numerical
-  explanation: "..."
-}
-```
-
-## Math skills practiced
-
-- Solving linear goods-market equilibrium (multipliers)
-- Comparative statics of IS and LM curves
-- WS-PS real-wage equations and natural rate
-- Accelerationist Phillips curve algebra
-- Basic Solow steady-state relations
-- Uncovered interest parity
+| Script | Purpose |
+|--------|---------|
+| `npm run manifest` | Scan `questions/*/` → write `questions/manifest.js` |
+| `npm run validate` | Manifest + question integrity (unique ids, required fields) |
+| `npm run count` | Count questions only |
+| `npm run serve` | Local static server on port 3000 |
 
 ## License
 
-Educational use for BMAK students. Content based on Blanchard *Macroeconomics* and university materials.
+Educational use. BMAK content based on Blanchard *Macroeconomics* and university materials.
