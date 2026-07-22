@@ -15,6 +15,11 @@ function katexHTML(latex) {
   try { return katex.renderToString(latex, { throwOnError: false, displayMode: false }); }
   catch (e) { return latex; }
 }
+function katexDisplay(latex) {
+  if (typeof katex === "undefined") return latex;
+  try { return katex.renderToString(latex, { throwOnError: false, displayMode: true }); }
+  catch (e) { return latex; }
+}
 function maybeTermWrap(html, termKey) {
   const g = window.GLOSSARY || {};
   if (termKey && g[termKey]) return `<span class="term" data-term="${termKey}">${html}</span>`;
@@ -22,6 +27,14 @@ function maybeTermWrap(html, termKey) {
 }
 function beautifyMath(text) {
   let s = String(text);
+
+  // 1) Display math $$...$$
+  s = s.replace(/\$\$([\s\S]+?)\$\$/g, (_, latex) => katexDisplay(latex.trim()));
+
+  // 2) Inline math $...$  (non-greedy, no nested $)
+  s = s.replace(/\$([^$\n]+?)\$/g, (_, latex) => katexHTML(latex.trim()));
+
+  // 3) Legacy / convenience replacements for plain text that is not inside $...$
   const replacements = [
     [/\u0394\u03c0/g, () => katexHTML("\\Delta\\pi")],
     [/\u03c0\u1d49/g, () => maybeTermWrap(katexHTML("\\pi^{e}"), "\u03c0")],

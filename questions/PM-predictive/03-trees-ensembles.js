@@ -5,10 +5,10 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     topic: "trees",
     examRelevance: 5,
     source: "Lecture 4–5 / PS3",
-    question: "The cost-complexity criterion for a tree $T$ is $C_\\alpha(T) =$ ",
+    question: "The cost-complexity criterion for a tree $T$ is $C_\\alpha(T) =$",
     options: [
       "only the number of terminal nodes",
-      "$\\sum_m \\sum_{x_i \\in R_m} (y_i - \\hat{y}_{R_m})^2 + \\alpha |T|$",
+      "$\\displaystyle\\sum_m \\sum_{x_i \\in R_m} (y_i - \\hat{y}_{R_m})^2 + \\alpha |T|$",
       "$\\alpha$ times the residual sum of squares",
       "the out-of-bag error"
     ],

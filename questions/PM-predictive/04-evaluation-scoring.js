@@ -7,8 +7,8 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     source: "Lecture 6 / Mock Q3",
     question: "A forecast $\\hat{Y}$ is auto-calibrated if",
     options: [
-      "$\\mathbb{E}[Y] = \\mathbb{E}[\\hat{Y}]$",
-      "$\\mathbb{E}[Y \\mid \\hat{Y}] = \\hat{Y}$",
+      "$E[Y] = E[\\hat{Y}]$",
+      "$E[Y \\mid \\hat{Y}] = \\hat{Y}$",
       "$\\mathrm{Corr}(Y, \\hat{Y}) = 1$",
       "$\\mathrm{Var}(Y - \\hat{Y}) = 0$"
     ],
@@ -29,7 +29,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
       "$\\alpha = 0$ and $\\delta = 1$"
     ],
     answer: 0,
-    explanation: "From the population MZ regression one obtains $\\mathbb{E}[Y \\mid \\hat{Y}] = \\alpha + (\\delta/(\\delta^2+\\eta^2)) \\hat{Y}$. Setting the intercept to 0 and the slope to 1 yields the stated conditions."
+    explanation: "From the population MZ regression one obtains $E[Y \\mid \\hat{Y}] = \\alpha + (\\delta/(\\delta^2+\\eta^2)) \\hat{Y}$. Setting the intercept to 0 and the slope to 1 yields the stated conditions."
   },
   {
     id: "pm-eval-03",
@@ -87,13 +87,13 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     source: "Mock Exam Problem 4c",
     question: "When the scoring function is $|\\exp(y) - \\exp(\\hat{y})|$ the optimal $\\hat{y}$ is",
     options: [
-      "$\\mathbb{E}[Y]$",
+      "$E[Y]$",
       "the median of $Y$ (because the exponential is strictly monotone and preserves quantiles)",
-      "$\\mathbb{E}[\\exp(Y)]$",
+      "$E[\\exp(Y)]$",
       "the mode of $\\exp(Y)$"
     ],
     answer: 1,
-    explanation: "Absolute error is minimised by the median. Because $\\exp$ is strictly increasing, the median of $\\exp(Y)$ is $\\exp$ of the median of $Y$, so the optimal report on the original scale is the median of $Y$."
+    explanation: "Absolute error is minimised by the median. Because $\\exp$ is strictly increasing, the median of $\\exp(Y)$ is $\\exp(\mathrm{median}$ of $Y)$, so the optimal report on the original scale is the median of $Y$."
   },
   {
     id: "pm-eval-07",
@@ -141,7 +141,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
       "2.5"
     ],
     answer: 1,
-    explanation: "$P(Y > 0) = 1$ for a continuous uniform on (0,5). The Brier score is strictly proper for the true probability."
+    explanation: "$P(Y > 0) = 1$ for a continuous uniform on $(0,5)$. The Brier score is strictly proper for the true probability."
   },
   {
     id: "pm-eval-10",

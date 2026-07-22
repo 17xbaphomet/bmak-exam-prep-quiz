@@ -69,7 +69,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     topic: "binary",
     examRelevance: 5,
     source: "Lecture 7 / Mock Q1e",
-    question: "Because a binary outcome satisfies $\\mathbb{E}[Y \\mid X] = P(Y=1 \\mid X)$, any method developed for conditional-mean prediction can be used to produce probability forecasts.",
+    question: "Because a binary outcome satisfies $E[Y \\mid X] = P(Y=1 \\mid X)$, any method developed for conditional-mean prediction can be used to produce probability forecasts.",
     answer: true,
     explanation: "This equivalence is the reason the same loss functions (Brier = MSE), the same auto-calibration concept, and many of the same algorithms apply directly to binary probability prediction."
   },
@@ -87,7 +87,7 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
       "Whether the model was estimated by maximum likelihood"
     ],
     answer: 1,
-    explanation: "Absolute evaluation checks intrinsic properties of one forecast (calibration, sharpness, \\ldots). Relative evaluation compares two or more forecasts via a loss function."
+    explanation: "Absolute evaluation checks intrinsic properties of one forecast (calibration, sharpness, …). Relative evaluation compares two or more forecasts via a loss function."
   },
   {
     id: "pm-bin-07",
