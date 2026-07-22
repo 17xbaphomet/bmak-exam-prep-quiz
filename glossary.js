@@ -1,4 +1,4 @@
-/* BMAK + BOEE glossary – short-handles and technical terms */
+/* BMAK + BOEE + PM glossary – short-handles and technical terms */
 window.GLOSSARY = {
   /* ---- Single-letter / short symbols (matched case-sensitively) ---- */
   "Y": "Output / income (real GDP in the model).",
@@ -20,10 +20,11 @@ window.GLOSSARY = {
   "z": "Catch-all factor shifting the wage-setting relation (benefits, unions, etc.). Higher z raises u_n.",
 
   /* ---- Greek letters ---- */
-  "alpha": "Often the slope of the Phillips curve: how strongly inflation responds to the unemployment gap.",
+  "alpha": "Often the slope of the Phillips curve: how strongly inflation responds to the unemployment gap. Also used as the cost-complexity penalty in tree pruning.",
   "beta": "Generic preference / discount parameter, or a coefficient in behavioural equations / regression.",
   "mu": "Markup of price over marginal cost. Higher markup lowers the real wage in PS and raises u_n.",
   "pi": "Inflation rate (percentage change in the price level).",
+  "lambda": "Tuning / penalty parameter in Ridge or Lasso regression (degree of shrinkage).",
 
   /* ---- Core model names ---- */
   "IS": "IS curve: combinations of Y and i (or r) that clear the goods market. Downward-sloping.",
@@ -74,5 +75,25 @@ window.GLOSSARY = {
   "saturated model": "Regression with a full set of mutually exclusive group dummies (and no continuous regressors). Fitted values recover the group-specific means of y.",
   "dummy-variable trap": "Perfect multicollinearity that arises when a full set of group dummies is included together with an intercept. Solution: omit one category (the reference group).",
   "lm": "R function for linear models / OLS: lm(y ~ x1 + x2).",
-  "I(x^2)": "R formula syntax that forces ordinary arithmetic so a quadratic term can be included: lm(y ~ x + I(x^2))."
+  "I(x^2)": "R formula syntax that forces ordinary arithmetic so a quadratic term can be included: lm(y ~ x + I(x^2)).",
+
+  /* ---- Predictive Modeling (PM) ---- */
+  "Ridge": "ℓ₂-penalised linear regression. Closed form (XᵀX + λI)⁻¹Xᵀy. Shrinks coefficients but does not set them exactly to zero.",
+  "Lasso": "ℓ₁-penalised linear regression. Can set some coefficients exactly to zero → automatic variable selection.",
+  "elastic net": "Convex combination of Ridge and Lasso penalties; useful when predictors are highly correlated.",
+  "auto-calibration": "Property E[Y | Ŷ] = Ŷ. The forecast is already optimal given itself; no post-processing is needed.",
+  "Mincer-Zarnowitz": "Regression of realisations on forecasts: Y = a + b Ŷ + e. Auto-calibration requires a=0, b=1.",
+  "MZ": "Short for Mincer-Zarnowitz regression.",
+  "pinball": "Pinball (quantile) loss: (1{y≤ŷ}-τ)(ŷ-y). Strictly consistent for the τ-quantile.",
+  "Brier": "Brier score = mean squared error of probability forecasts for binary events. Strictly consistent for the true probability.",
+  "Bregman": "Bregman class of loss functions; all members are strictly consistent for the mean.",
+  "cost-complexity": "C_α(T) = RSS(T) + α|T|. Criterion used to prune regression/classification trees.",
+  "mtry": "Number of predictors randomly selected as candidates at each split in a Random Forest. Default ≈ √p (classification) or p/3 (regression).",
+  "bagging": "Bootstrap aggregating: average predictions of models trained on bootstrap samples. Reduces variance of unstable learners.",
+  "OOB": "Out-of-bag: observations not included in a particular bootstrap sample; can be used for internal validation of bagged/RF models.",
+  "proper scoring rule": "A scoring rule that is maximised in expectation by reporting the true distribution (or the true functional).",
+  "strictly consistent": "A scoring function is strictly consistent for a functional if the expected score is uniquely minimised by that functional.",
+  "IS": "In-sample (training) error.",
+  "OOS": "Out-of-sample (test) error – the quantity we ultimately care about for prediction.",
+  "CV": "Cross-validation: technique to estimate OOS performance by holding out folds of the training data."
 };
