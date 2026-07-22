@@ -1,4 +1,4 @@
-/* BMAK + BOEE + PM glossary – short-handles and technical terms */
+/* BMAK + BOEE + PM + BMGT glossary – short-handles and technical terms */
 window.GLOSSARY = {
   /* ---- Single-letter / short symbols (matched case-sensitively) ---- */
   "Y": "Output / income (real GDP in the model).",
@@ -21,7 +21,7 @@ window.GLOSSARY = {
 
   /* ---- Greek letters ---- */
   "alpha": "Often the slope of the Phillips curve: how strongly inflation responds to the unemployment gap. Also used as the cost-complexity penalty in tree pruning.",
-  "beta": "Generic preference / discount parameter, or a coefficient in behavioural equations / regression.",
+  "beta": "Generic preference / discount parameter, or a coefficient in behavioural equations / regression. In PA models: share of revenue in linear contract w = α + βR.",
   "mu": "Markup of price over marginal cost. Higher markup lowers the real wage in PS and raises u_n.",
   "pi": "Inflation rate (percentage change in the price level).",
   "lambda": "Tuning / penalty parameter in Ridge or Lasso regression (degree of shrinkage).",
@@ -95,5 +95,33 @@ window.GLOSSARY = {
   "strictly consistent": "A scoring function is strictly consistent for a functional if the expected score is uniquely minimised by that functional.",
   "IS": "In-sample (training) error.",
   "OOS": "Out-of-sample (test) error – the quantity we ultimately care about for prediction.",
-  "CV": "Cross-validation: technique to estimate OOS performance by holding out folds of the training data."
+  "CV": "Cross-validation: technique to estimate OOS performance by holding out folds of the training data.",
+
+  /* ---- BMGT / Basiskurs Management ---- */
+  "Nash": "Nash-Gleichgewicht: Strategieprofil, bei dem kein Spieler einen Anreiz hat, einseitig abzuweichen (gegenseitige beste Antworten).",
+  "Nash-Gleichgewicht": "Strategieprofil, bei dem kein Spieler einen Anreiz hat, einseitig abzuweichen.",
+  "dominante Strategie": "Strategie, die unabhängig vom Verhalten des Gegners den höchsten Payoff liefert.",
+  "strikt dominierte Strategie": "Strategie, die von einer anderen in allen Fällen strikt schlechter ist.",
+  "Moral Hazard": "Hidden-Action-Problem nach Vertragsabschluss; Anstrengung nicht beobachtbar/verifizierbar → second-best Verträge nötig.",
+  "first-best": "Effizientes Ergebnis, wenn Anstrengung beobachtbar und vertraglich fixierbar ist (meist Fixlohn bei vereinbartem Level).",
+  "second-best": "Beschränkt effizientes Ergebnis unter Moral Hazard; Anstrengung wird über anreizkompatible variable Vergütung induziert.",
+  "Partizipationsbedingung": "PB / IR: Erwarteter Nutzen des Agenten ≥ Reservationsnutzen (u₀).",
+  "Anreizkompatibilitätsbedingung": "AB / IC: Agent zieht die gewünschte Anstrengung jeder anderen vor.",
+  "Cournot": "Mengenwettbewerb: Firmen wählen Mengen simultan; Mengen sind strategische Substitute.",
+  "Bertrand": "Preiswettbewerb: Firmen wählen Preise simultan; bei homogenen Gütern Preis = Grenzkosten (Bertrand-Paradox).",
+  "Stackelberg": "Sequentieller Mengenwettbewerb mit Führer und Folger; First-Mover-Advantage des Führers.",
+  "Grim Trigger": "Strategie, die mit Kooperation beginnt und nach einmaligem Abweichen dauerhaft zum statischen Nash wechselt.",
+  "kritischer Diskontfaktor": "Minimaler δ*, ab dem Kooperation unter Grim-Trigger-Strategien im unendlich wiederholten Spiel stabil ist.",
+  "Aghion-Tirole": "Modell formaler vs. realer Autorität; Delegation beeinflusst Informationsanreize.",
+  "formale Autorität": "Recht, die Entscheidung zu treffen (kann beim Prinzipal oder Agenten liegen).",
+  "reale Autorität": "Tatsächlicher Einfluss auf die Entscheidung durch bessere Information.",
+  "Free-Rider": "Bei Teamproduktion mit positiven Externalitäten unterinvestiert jedes Mitglied relativ zum sozialen Optimum.",
+  "Prinzipal-Agent": "Beziehung mit Interessenkonflikt und asymmetrischer Information (Moral Hazard).",
+  "Reservationsnutzen": "Außenoption / Reservationsnutzen des Agenten (u₀).",
+  "strategische Substitute": "Beste-Antwort-Funktionen fallend (z.B. Cournot-Mengen).",
+  "strategische Komplemente": "Beste-Antwort-Funktionen steigend (z.B. Bertrand-Preise bei differenzierten Gütern).",
+  "Umsatzbeteiligung": "Variabler Lohnanteil β am Umsatz R (w = α + βR).",
+  "Fixlohn": "Konstanter Lohn unabhängig vom Ergebnis (first-best bei beobachtbarer Anstrengung).",
+  "teilspielperfekt": "Nash-Gleichgewicht, das in jedem Teilspiel ein Nash-Gleichgewicht darstellt (via Rückwärtsinduktion).",
+  "Agency-Kosten": "Verlust des Prinzipals durch Moral Hazard im Vergleich zum First-Best."
 };
