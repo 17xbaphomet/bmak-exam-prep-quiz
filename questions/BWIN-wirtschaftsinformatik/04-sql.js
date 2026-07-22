@@ -316,5 +316,108 @@ window.QUESTIONS = (window.QUESTIONS || []).concat([
     question: "In der Übungsklausur kamen auch Verständnisfragen zur Interpretation von SQL-Ausgaben vor.",
     answer: true,
     explanation: "Neben dem Schreiben von Abfragen wurde auch das Lesen/Interpretieren von Ergebnissen geprüft."
+  },
+
+  // ─── Complex JOINs (Übung 4 Aufgabe 5) ─────────────────────
+  {
+    id: "bwin-sql-26",
+    type: "mcq",
+    topic: "sql",
+    examRelevance: 5,
+    source: "Übung 4 Aufgabe 5",
+    question: "Welches Attribut eignet sich typischerweise für den Verbund (JOIN) zwischen den Tabellen Mitarbeiter und Abteilung?",
+    options: ["Name", "AbtNr", "Standort", "Stundensatz"],
+    answer: 1,
+    explanation: "AbtNr ist der Fremdschlüssel in Mitarbeiter und der Primärschlüssel in Abteilung."
+  },
+  {
+    id: "bwin-sql-27",
+    type: "mcq",
+    topic: "sql",
+    examRelevance: 5,
+    source: "Übung 4 Aufgabe 5",
+    question: "Wie schreibt man einen INNER JOIN zwischen Mitarbeiter und Abteilung über AbtNr?",
+    options: [
+      "FROM Mitarbeiter, Abteilung WHERE Mitarbeiter.AbtNr = Abteilung.AbtNr",
+      "FROM Mitarbeiter JOIN Abteilung ON Mitarbeiter.AbtNr = Abteilung.AbtNr",
+      "Beide Varianten sind möglich (klassische und explizite Schreibweise)",
+      "FROM Mitarbeiter INNER Abteilung"
+    ],
+    answer: 2,
+    explanation: "Beide Schreibweisen (impliziter Join mit WHERE und expliziter JOIN … ON) sind in SQL gültig."
+  },
+  {
+    id: "bwin-sql-28",
+    type: "mcq",
+    topic: "sql",
+    examRelevance: 5,
+    source: "Übung 4 Aufgabe 5",
+    question: "Welche Spalten soll der Verbund laut Übungsaufgabe u. a. enthalten?",
+    options: [
+      "Nur Name und AbteilungName",
+      "Vorname, Name, Geburtsjahr, AbtNr, Titel, Stundensatz, Wochenstunden, AbteilungName, Standort",
+      "Nur die Primärschlüssel",
+      "Alle Spalten beider Tabellen mit SELECT *"
+    ],
+    answer: 1,
+    explanation: "Die Aufgabe verlangt genau diese Attribute."
+  },
+  {
+    id: "bwin-sql-29",
+    type: "truefalse",
+    topic: "sql",
+    examRelevance: 4,
+    source: "Übung 4",
+    question: "Ein JOIN kombiniert Zeilen aus zwei oder mehr Tabellen anhand einer gemeinsamen Bedingung (meist Gleichheit von Schlüsselwerten).",
+    answer: true,
+    explanation: "Das ist die Grundidee des Verbunds."
+  },
+  {
+    id: "bwin-sql-30",
+    type: "mcq",
+    topic: "sql",
+    examRelevance: 4,
+    source: "Übung 4",
+    question: "Was passiert bei einem INNER JOIN, wenn zu einem Mitarbeiter keine passende Abteilung gefunden wird?",
+    options: [
+      "Der Mitarbeiter erscheint trotzdem mit NULL-Werten",
+      "Der Mitarbeiter erscheint nicht im Ergebnis",
+      "Es wird ein Fehler geworfen",
+      "Alle Abteilungen werden verdoppelt"
+    ],
+    answer: 1,
+    explanation: "INNER JOIN liefert nur übereinstimmende Zeilen. Für Nicht-Übereinstimmungen bräuchte man LEFT/RIGHT OUTER JOIN."
+  },
+  {
+    id: "bwin-sql-31",
+    type: "mcq",
+    topic: "sql",
+    examRelevance: 4,
+    source: "Übung 4",
+    question: "Welche Schreibweise ist für den Join in der Übung explizit gefordert?",
+    options: ["WHERE-Join", "JOIN … ON", "NATURAL JOIN", "CROSS JOIN"],
+    answer: 1,
+    explanation: "Die Aufgabe sagt: „Nutzen Sie dazu JOIN“."
+  },
+  {
+    id: "bwin-sql-32",
+    type: "truefalse",
+    topic: "sql",
+    examRelevance: 3,
+    source: "Übung 4",
+    question: "Bei einem JOIN können Spalten aus beiden Tabellen in der SELECT-Liste gemischt werden.",
+    answer: true,
+    explanation: "Genau das ist der Sinn des Verbunds."
+  },
+  {
+    id: "bwin-sql-33",
+    type: "mcq",
+    topic: "sql",
+    examRelevance: 3,
+    source: "Übung 4",
+    question: "Welcher Join-Typ liefert alle Zeilen der linken Tabelle und passende (oder NULL) der rechten?",
+    options: ["INNER JOIN", "LEFT OUTER JOIN", "RIGHT OUTER JOIN", "CROSS JOIN"],
+    answer: 1,
+    explanation: "LEFT OUTER JOIN behält alle Zeilen der linken Tabelle."
   }
 ]);
