@@ -1,27 +1,32 @@
-/* Dynamic question loader – reads window.QUESTION_MANIFEST and injects scripts */
+/* Dynamic question loader – window.QUESTION_MANIFEST */
 (function () {
   const manifest = window.QUESTION_MANIFEST;
   if (!manifest || !Array.isArray(manifest.subjects) || !manifest.subjects.length) {
-    console.error('QUESTION_MANIFEST missing or empty. Run: npm run manifest');
+    console.error('QUESTION_MANIFEST missing. Run: npm run manifest');
     return;
   }
 
-  /** Load all question files for one subject (Promise resolves when done). */
+  function injectScript(src) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => resolve(src);
+      s.onerror = () => reject(new Error('Failed: ' + src));
+      document.head.appendChild(s);
+    });
+  }
+
   window.loadSubject = function loadSubject(subjectId) {
     const sub = manifest.subjects.find(s => s.id === subjectId);
     if (!sub) return Promise.reject(new Error('Unknown subject: ' + subjectId));
 
-    // Reset bank before loading a subject
     window.QUESTIONS = [];
 
-    const base = 'questions/' + subjectId + '/';
-    const loads = sub.files.map(file => new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = base + file;
-      s.onload = () => resolve(file);
-      s.onerror = () => reject(new Error('Failed to load ' + base + file));
-      document.head.appendChild(s);
-    }));
+    const loads = sub.files.map(file => {
+      const primary = 'questions/' + subjectId + '/' + file;
+      const fallback = 'questions/' + file; // flat layout during migration
+      return injectScript(primary).catch(() => injectScript(fallback));
+    });
 
     return Promise.all(loads).then(() => {
       console.log('Loaded subject', subjectId, '–', (window.QUESTIONS || []).length, 'questions');
@@ -30,6 +35,10 @@
   };
 
   window.listSubjects = function listSubjects() {
-    return manifest.subjects.map(s => ({ id: s.id, label: s.label, fileCount: s.files.length }));
+    return manifest.subjects.map(s => ({
+      id: s.id,
+      label: s.label,
+      fileCount: s.files.length
+    }));
   };
 })();

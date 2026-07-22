@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BMAK Macroeconomics 1 – Exam Prep Quiz</title>
+  <title>Exam Prep Quiz</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <h1>BMAK Macroeconomics 1</h1>
-    <p class="subtitle">Exam-prep quiz · Prioritized by exam relevance · Blanchard + lectures + HWs + sample exam</p>
+    <h1 id="pageTitle">Exam Prep Quiz</h1>
+    <p class="subtitle">Prioritized by exam relevance · Multi-subject</p>
 
     <div class="controls">
+      <div>
+        <label>Subject</label>
+        <select id="subjectFilter"></select>
+      </div>
       <div>
         <label>Min. Exam Relevance</label>
         <input type="range" id="relevance" min="1" max="5" value="3">
@@ -24,15 +27,6 @@
         <label>Topic</label>
         <select id="topicFilter">
           <option value="all">All topics</option>
-          <option value="goods">Goods Market & Multiplier</option>
-          <option value="money">Money Market & Banking</option>
-          <option value="islm">IS-LM Model</option>
-          <option value="labor">Labor Market (WS-PS)</option>
-          <option value="pc">Phillips Curve</option>
-          <option value="medium">IS-LM-PC / Medium Run</option>
-          <option value="growth">Growth & Solow</option>
-          <option value="open">Open Economy / Mundell-Fleming</option>
-          <option value="accounts">National Accounts</option>
         </select>
       </div>
       <div>
@@ -68,33 +62,14 @@
     </div>
 
     <div id="startScreen" class="card">
-      <p>Focus on the highest-probability exam material:</p>
-      <ul>
-        <li>Goods market equilibrium & multipliers</li>
-        <li>Money market / LM / banking</li>
-        <li>IS-LM model, shifts & policy effects</li>
-        <li>Labor market (WS-PS) & natural rate</li>
-        <li>Phillips curve & medium-run adjustment</li>
-        <li>Growth / Solow basics</li>
-        <li>Open economy / Mundell-Fleming & policy effectiveness</li>
-      </ul>
-      <p class="muted">Click highlighted terms for short definitions. Math is rendered with KaTeX.<br>
-      Progress is saved in your browser.</p>
+      <p>Select a subject and start. Click highlighted terms for definitions. Math is rendered with KaTeX.</p>
+      <p class="muted">To add questions: drop <code>NN-name.js</code> into <code>questions/SUBJECT-id/</code> and run <code>npm run manifest</code>. No index.html changes needed.</p>
     </div>
   </div>
 
-  <!-- Modular question bank -->
-  <script src="questions/01-goods.js"></script>
-  <script src="questions/02-money.js"></script>
-  <script src="questions/03-islm.js"></script>
-  <script src="questions/04-labor.js"></script>
-  <script src="questions/05-pc.js"></script>
-  <script src="questions/06-medium.js"></script>
-  <script src="questions/07-growth.js"></script>
-  <script src="questions/08-open-mf.js"></script>
-  <script src="questions/09-accounts.js"></script>
-  <script src="questions/10-gaps-focused.js"></script>
-  <script src="questions/11-final-polish.js"></script>
+  <!-- Auto-discovery: no per-module script tags -->
+  <script src="questions/manifest.js"></script>
+  <script src="loader.js"></script>
   <script src="glossary.js"></script>
   <script src="quiz.js"></script>
 </body>
